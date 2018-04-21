@@ -28,9 +28,6 @@ java/staff_online/data
 java/staff_online/WebContent/umeditor
 
 # 3. php
-# Log file
-*.log
-
 php/laravel
 php/laravel55
 php/pwdbook
@@ -47,8 +44,6 @@ php/WebServer.zip
 php/verify_code/simfang.ttf
 
 # 4. python
-# Log file
-*.log
 
 # 依赖包目录
 python/packages
