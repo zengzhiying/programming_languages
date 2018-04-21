@@ -1,0 +1,58 @@
+# 1. front
+# mp3
+front/qixi/lsl.mp3
+# 电路计算相关说明文档目录
+front/electric_compute/data
+
+# 2. java
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# Package Files
+*.jar
+*.war
+*.ear
+*.rar
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# maven target目录
+java/socketio_demo/target
+
+# 员工在线管理系统 数据目录以及编辑器目录
+java/staff_online/data
+java/staff_online/WebContent/umeditor
+
+# 3. php
+# Log file
+*.log
+
+php/laravel
+php/laravel55
+php/pwdbook
+php/CodeIgniter.zip
+php/gzyycx.zip
+php/Libraries.zip
+php/MiniFrame.zip
+php/pwdbook.zip
+php/qjyangsheng.zip
+php/WebFramework.zip
+php/WebServer.zip
+
+# 字体文件
+php/verify_code/simfang.ttf
+
+# 4. python
+# Log file
+*.log
+
+# 依赖包目录
+python/packages
+
+# python编译文件
+*.pyc
+*.pyd

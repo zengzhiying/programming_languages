@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>js设置cookie demo</title>
+</head>
+<body>
+    <h3>js设置cookie demo</h3>
+    <script type="text/javascript">
+    /**
+     * 设置cookie 
+     * name cookie名称
+     * value cookie对应值
+     * time cookie有效时间 单位:s
+     */
+    function setCookie(name, value, time) {
+        var exp = new Date();
+        exp.setTime(exp.getTime() + time*1000);
+        document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
+    }
+    // setCookie("test_cookie", "zzy", 3000);
+    // 读取cookie name要读取的cookie名称
+    function getCookie(name) {
+        var arr = document.cookie.replace(/ /g, '').split(";");
+        for(var i = 0;i < arr.length;i++) {
+            var arr2 = arr[i].split("=");
+            if(name == arr2[0]) {
+                return arr2[1];
+            }
+        }
+        return null;
+    }
+    // document.write(getCookie("test_cookie"));
+    // 删除cookie name要删除的cookie名称
+    function deleteCookie(name) {
+        var exp = new Date();
+        exp.setTime(exp.getTime() - 1);
+        var cval = getCookie(name);
+        if(cval != null) {
+            document.cookie = name + "=" + cval + ";expires=" + exp.toGMTString();
+        }
+    }
+    deleteCookie("test_cookie");
+    </script>
+</body>
+</html>

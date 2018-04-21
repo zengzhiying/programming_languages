@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+       Copyright 2009-2012 the original author or authors.
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+          http://www.apache.org/licenses/LICENSE-2.0
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+-->
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace区分不同的实体类，下面是不同的id，避免重复 -->
+<mapper namespace="Partment">
+  <!-- type配置类名称 id是resultMap标签的唯一名字 -->
+  <resultMap type="net.zengzhiying.beans.Partment" id="PartmentResult">
+  <!-- id标签指定主键 column是数据库字段名，property是实体类属性名，jdbcType是数据库中字段类型，在java.sql.Types中有这些常量 -->
+    <id column="pm_id" jdbcType="INTEGER" property="pm_id"/>
+    <result column="pm_name" jdbcType="VARCHAR" property="pm_name"/>
+    <result column="pm_describe" jdbcType="VARCHAR" property="pm_describe"/>
+    <result column="setup_time" jdbcType="VARCHAR" property="setup_time"/>
+  </resultMap>
+  <!-- id为该语句起一个唯一名字，表明作用,resultMap和上面resultMap的id属性相同，用来传值 -->
+  <!-- parameterType是用来向sql语句传递参数的类型 -->
+  
+  <!-- 根据id查询对应的部门名称 -->
+  <select id="queryName" parameterType="int" resultMap="PartmentResult">
+    SELECT * FROM sol_partment WHERE pm_id=#{_parameter}
+  </select>
+  
+  <!-- 查询所有的部门列表 -->
+  <select id="queryAll" parameterType="int" resultMap="PartmentResult">
+    SELECT * FROM sol_partment WHERE 1=1 order by pm_id desc
+  </select>
+  
+  <!-- 新增一个部门 -->
+  <insert id="insertPartment" parameterType="net.zengzhiying.beans.Partment" useGeneratedKeys="true" keyProperty="pm_id">
+  	INSERT INTO sol_partment (pm_name,pm_describe,setup_time) values (#{pm_name},#{pm_describe},#{setup_time})
+  </insert>
+  
+  <!-- 删除一个部门 -->
+  <delete id="deletePartment" parameterType="int">
+  	DELETE FROM sol_partment where pm_id=#{_parameter}
+  </delete>
+  
+  <!-- 更新一个部门 -->
+  <update id="updatePartment" parameterType="net.zengzhiying.beans.Partment">
+    UPDATE sol_partment SET pm_name=#{pm_name},setup_time=#{setup_time},pm_describe=#{pm_describe} WHERE pm_id=#{pm_id}
+  </update>
+</mapper>

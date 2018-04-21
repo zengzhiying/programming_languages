@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>敏感词汇过滤</title>
+</head>
+<body>
+    <script type="text/javascript">
+    //str敏感词汇表 strs过滤字符串
+    var str="妈的,他妈,操蛋";
+    var strs="妈的，你真他妈操蛋";
+    
+    sensitiveWordFilter(str,strs);
+
+    function sensitiveWordFilter(str,strs){
+        var cars=new Array();
+        cars=str.split(",");
+        for(var i=0;i<cars.length;i++){
+            if(strs.search(cars[i])>=0){
+                alert('存在敏感词汇！'+cars[i]);
+            }
+        }
+    }
+    </script>
+</body>
+</html>

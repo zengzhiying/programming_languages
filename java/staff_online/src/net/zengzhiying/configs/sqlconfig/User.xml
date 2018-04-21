@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+       Copyright 2009-2012 the original author or authors.
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+          http://www.apache.org/licenses/LICENSE-2.0
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+-->
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace区分不同的实体类，下面是不同的id，避免重复 -->
+<mapper namespace="User">
+  <!-- type配置类名称 id是resultMap标签的唯一名字 -->
+  <resultMap type="net.zengzhiying.beans.User" id="UserResult">
+  <!-- id标签指定主键 column是数据库字段名，property是实体类属性名，jdbcType是数据库中字段类型，在java.sql.Types中有这些常量 -->
+    <id column="user_id" jdbcType="INTEGER" property="user_id"/>
+    <result column="user_name" jdbcType="VARCHAR" property="user_name"/>
+    <result column="gender" jdbcType="INTEGER" property="gender"/>
+    <result column="age" jdbcType="INTEGER" property="age"/>
+    <result column="username" jdbcType="VARCHAR" property="username"/>
+    <result column="password" jdbcType="VARCHAR" property="password"/>
+    <result column="department_id" jdbcType="INTEGER" property="department_id"/>
+    <result column="access_type" jdbcType="INTEGER" property="access_type"/>
+    <result column="contact" jdbcType="VARCHAR" property="contact"/>
+    <result column="is_approve" jdbcType="INTEGER" property="is_approve"/>
+    <result column="commit_time" jdbcType="INTEGER" property="commit_time"/>
+    <result column="register_time" jdbcType="INTEGER" property="register_time"/>
+    <result column="user_describe" jdbcType="VARCHAR" property="user_describe"/>
+  </resultMap>
+  <!-- id为该语句起一个唯一名字，表明作用,resultMap和上面resultMap的id属性相同，用来传值 -->
+  <!-- parameterType是用来向sql语句传递参数的类型 -->
+  <select id="userLogin" parameterType="net.zengzhiying.beans.User" resultMap="UserResult">
+    SELECT * FROM sol_user WHERE username=#{username} and password=#{password}
+  </select>
+  
+  <!-- 员工列表 根据传入参数确定是普通员工还是部门经理 -->
+  <select id="staffList" parameterType="int" resultMap="UserResult">
+    SELECT * FROM sol_user WHERE access_type=#{_parameter} order by user_id desc
+  </select>
+  
+  <!-- 查询某个部门下是否存在员工-->
+  <select id="PartmentToUser" parameterType="int" resultMap="UserResult">
+  	SELECT * FROM sol_user where department_id=#{_parameter} limit 1
+  </select>
+  
+  <!-- 查询某个部门中除部门经理外员工人数 -->
+  <select id="PartmentToUser1" parameterType="int" resultMap="UserResult">
+  	SELECT * FROM sol_user where department_id=#{_parameter} and access_type=3
+  </select>
+  
+  <!-- 查询单条员工信息 -->
+  <select id="queryUser" parameterType="int" resultMap="UserResult">
+  	SELECT * FROM sol_user where user_id=#{_parameter}
+  </select>
+  
+  <!-- 查询某个用户名是否存在，主要是为了防止重复 -->
+  <select id="queryUser1" parameterType="string" resultMap="UserResult">
+  	SELECT * FROM sol_user where username=#{__parameter}
+  </select>
+  
+  
+  <!-- 新增一个用户 -->
+  <insert id="insertUser" parameterType="net.zengzhiying.beans.User" useGeneratedKeys="true" keyProperty="user_id">
+  	INSERT INTO sol_user (user_name,gender,age,username,password,department_id,access_type,contact,is_approve,commit_time,register_time,user_describe) values (#{user_name},#{gender},#{age},#{username},#{password},#{department_id},#{access_type},#{contact},#{is_approve},#{commit_time},#{register_time},#{user_describe})
+  </insert>
+  
+  <!-- 修改一个用户 -->
+  <update id="updateUser" parameterType="net.zengzhiying.beans.User">
+  	UPDATE sol_user set user_name=#{user_name},gender=#{gender},age=#{age},department_id=#{department_id},contact=#{contact},is_approve=#{is_approve},user_describe=#{user_describe} where user_id=#{user_id}
+  </update>
+  
+  <!-- 修改部门经理 1-->
+  <update id="updateUser1" parameterType="net.zengzhiying.beans.User">
+  	UPDATE sol_user set user_name=#{user_name},gender=#{gender},age=#{age},department_id=#{department_id},contact=#{contact},is_approve=#{is_approve},user_describe=#{user_describe},username=#{username},password=#{password} where user_id=#{user_id}
+  </update>
+  
+  <!-- 修改部门经理 2-->
+  <update id="updateUser2" parameterType="net.zengzhiying.beans.User">
+  	UPDATE sol_user set user_name=#{user_name},gender=#{gender},age=#{age},department_id=#{department_id},contact=#{contact},is_approve=#{is_approve},user_describe=#{user_describe},username=#{username} where user_id=#{user_id}
+  </update>
+  
+  <!-- 删除一个用户，并且添加双重限制，严格避免超级管理员被删除 -->
+  <delete id="deleteUser" parameterType="int">
+  	DELETE FROM sol_user where user_id=#{_parameter} and access_type!=1
+  </delete>
+  
+  <!-- 用户审批 仅修改一个状态 -->
+  <update id="approveUser" parameterType="int">
+  	UPDATE sol_user set is_approve=1 where user_id=#{_parameter}
+  </update>
+  
+  <!-- 通过用户名查询user -->
+  <select id="usernameToUser" parameterType="string" resultMap="UserResult">
+  	SELECT * FROM sol_user where username=#{_parameter}
+  </select>
+  
+  <!-- 修改某个用户的密码 -->
+  <update id="eidtUserToPass" parameterType="net.zengzhiying.beans.User">
+  	UPDATE sol_user set password=#{password} where username=#{username}
+  </update>
+  
+  <!-- 查询7日之内员工数 -->
+  <select id="latelyUserNumber" parameterType="long" resultMap="UserResult">
+  	SELECT * FROM sol_user where register_time > #{_parameter} and access_type=3
+  </select>
+  
+  <!-- 查询除了大boss之外的所有员工数 -->
+  <select id="countUserNumber" resultMap="UserResult">
+  	SELECT * FROM sol_user where access_type!=1 and is_approve=1
+  </select>
+  
+</mapper>

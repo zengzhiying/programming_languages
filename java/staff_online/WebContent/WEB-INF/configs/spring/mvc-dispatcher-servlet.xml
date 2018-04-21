@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+       
+       <!-- 激活注解 -->
+       <context:annotation-config />
+       
+       <!-- 定义上下文，dispather只搜索上下文中的类，只管理@Controller的类而不管理@Service -->
+       <context:component-scan base-package="net.zengzhiying.controller" />
+       
+       <!-- 扩充注解驱动，将请求参数绑定到控制器 -->
+       <!-- 
+       <mvc:annotation-driven />
+        -->
+       
+       <!-- 静态资源不拦截处理 -->
+       <!-- 
+       <mvc:resources mapping="/resources/*" location="/resources/" />
+        -->
+       
+       <!-- HandlerMapping -->
+	   <bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
+	   <!-- HandlerAdapter -->
+	   <bean class="org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter"/>
+	   
+	   <!-- spring 3.1之后由RequestMappingHandlerAdapter和RequestMappingHandlerMapping代替 -->
+	   <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter"></bean>
+	   <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping"></bean>
+	   
+	   <!-- ViewResolver -->
+	   <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	       <property name="prefix" value="/WEB-INF/views/"/>
+	       <property name="suffix" value=".jsp"/>
+	   </bean>
+	   
+	   <!-- 自定义Spring MVC异常处理 405 get post错误，500错误等 -->
+	   <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+	   	<property name="exceptionMappings">
+	   	    <props>
+	   	        <prop key="java.lang.Throwable">error/myException</prop>
+            </props>  
+        </property>
+       </bean>
+       
+</beans>

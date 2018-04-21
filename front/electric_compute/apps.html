@@ -1,0 +1,171 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>标准ajax异步请求应用界面</title>
+
+  <!-- Set render engine for 360 browser -->
+  <meta name="renderer" content="webkit">
+
+  <!-- No Baidu Siteapp-->
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+  <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+
+  <!-- Tile icon for Win8 (144x144 + tile color) -->
+  <meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
+  <meta name="msapplication-TileColor" content="#0e90d2">
+
+  <link rel="stylesheet" href="assets/css/amazeui.min.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+  <div class="am-g am-g-fixed" style="margin-top:36px;">
+    <div class="am-u-sm-6 am-u-end">
+        <p style="font-size:21px;">应用标题</p>
+    </div>
+  </div>
+
+  <!-- form view start-->
+  <div class="am-container" style="margin-top:18px;">
+      <div class="am-g">
+          <div class="am-u-sm-1">
+              <p>&nbsp;</p>
+          </div>
+          <div class="am-u-sm-8 am-u-end">
+              <p>
+                  提示：
+              </p>
+              <span class="" id="input_error">
+                  <input type="text" class="am-form-field am-radius" id="input_text" placeholder="请输入指定内容">
+              </span>
+              <p>
+              </p>
+              <button type="button" id="query_btn" class="am-btn am-btn-secondary">&nbsp;&nbsp;&nbsp;查&nbsp;&nbsp;询&nbsp;&nbsp;&nbsp;</button>
+          </div>
+      </div>
+
+      <br />
+      <div class="am-g">
+          <!-- 错误提示输出的容器 -->
+          <div class="am-panel am-panel-success" style="display:none;" id="alert_box">
+              <div class="am-panel-bd" id="alert_content"></div>
+          </div>
+
+
+          <!-- 应用执行结果的输出容器 -->
+          <div class="am-panel am-panel-secondary" id="show_box" style="display:none;">
+              <div class="am-panel-hd" id="show_content1"></div>
+              <div class="am-panel-bd" id="show_content2">
+                  
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- form view end -->
+
+  <!-- footer start -->
+  <footer data-am-widget="footer" class="am-footer am-footer-default" data-am-footer="{  }">
+    <div class="am-footer-miscs ">
+      <p>感谢您的访问！</p>
+      <p>CopyRight©2014 zengzhiying.net Inc.</p>
+      <p><a href="http://www.miitbeian.gov.cn/" target="_blank">鲁ICP备14017209号-2</a></p>
+    </div>
+  </footer>
+  <!-- footer end -->
+
+
+  <!--[if (gte IE 9)|!(IE)]><!-->
+  <script src="assets/js/jquery.min.js"></script>
+  <!--<![endif]-->
+  <!--[if lte IE 8 ]>
+  <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+  <script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+  <![endif]-->
+  <script src="assets/js/amazeui.min.js"></script>
+
+
+
+  <!-- js验证逻辑 -->
+
+  <script type="text/javascript">
+    //查询Ajax事件
+    $(document).ready(function() {
+        $("#query_btn").click(function() {
+            //提示信息初始化
+            var alert_content = '<img src="./assets/i/landing.gif" >&nbsp;正在查询，请稍后...';
+            $("#alert_content").html(alert_content);
+            $("#alert_box").show();
+            $("#input_error").attr("class","");
+            $("#show_box").hide();
+            //js 简单验证逻辑 多个表单继续补充此处
+            var input_text = $("#input_text").val();
+            if(input_text == '') {
+                $("#input_error").attr("class","am-form-error");
+                $("#alert_content").html("内容不能为空！");
+                return false;
+            }
+
+            //jquery ajax 高层实现 异步回调
+            $.get("/webapps", {"input_text":input_text}, function(data) {
+                $("#alert_box").hide();
+                $("#show_content1").html("查询结果");
+                $("#show_content2").html(data);
+                $("#show_box").show('slow');
+                return true;
+            });
+
+            //jquery ajax 底层实现 异步回调
+            $.ajax({
+              //请求类型 get post
+              type:"get",
+              //是否异步，true设置为异步
+              async:true,
+              //请求到本地服务器的url
+              url:"/express",
+              //设置服务器响应类型，默认是智能判断，除html外还有xml、json、text，html一般以请求一个部分页面的形式返回，json是以纯格式化key-value键值对方式返回，text是简单的普通文本
+              dataType:"html",
+              //向服务器请求的参数json格式
+              data:{"param1":param1,"param2":param2},
+              //是否缓存请求,默认为true
+              cache:false,
+              //处理成功的回调显示
+              success:function(data) {
+                $("#show_content1").html("返回结果");
+                $("#show_content2").html(data);
+                $("#alert_box").hide();
+                $("#show_box").show("slow");
+                return true;
+              },
+              //处理失败或异常的显示
+              error:function() {
+                $("#show_content1").html("返回结果");
+                $("#show_content2").html("异常");
+                $("#alert_box").hide();
+                $("#show_box").show("slow");
+                return false;
+              }
+            });
+
+
+        });
+    });
+  </script>
+</body>
+</html>

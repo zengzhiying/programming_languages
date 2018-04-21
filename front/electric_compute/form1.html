@@ -1,0 +1,172 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>填写内容比较多的跳转处理请求的表单标准应用</title>
+
+  <!-- Set render engine for 360 browser -->
+  <meta name="renderer" content="webkit">
+
+  <!-- No Baidu Siteapp-->
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+  <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+
+  <!-- Tile icon for Win8 (144x144 + tile color) -->
+  <meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
+  <meta name="msapplication-TileColor" content="#0e90d2">
+
+  <link rel="stylesheet" href="assets/css/amazeui.min.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+  <div class="am-g am-g-fixed" style="margin-top:36px;">
+    <div class="am-u-sm-6 am-u-end">
+        <p style="font-size:21px;">应用标题</p>
+    </div>
+  </div>
+
+  <!-- form view start-->
+  <div class="am-container" style="margin-top:18px;">
+    <form action="do1.html" class="am-form" id="doc-vld-msg">
+      <fieldset>
+        <legend>显示验证提示信息</legend>
+        <div class="am-form-group">
+          <label for="doc-vld-name-2-1">用户名：</label>
+          <input type="text" id="doc-vld-name-2-1" minlength="3" placeholder="输入用户名（至少 3 个字符）" required/>
+        </div>
+
+        <div class="am-form-group">
+          <label for="doc-vld-email-2-1">邮箱：</label>
+          <input type="email" id="doc-vld-email-2-1" data-validation-message="自定义提示信息：输入地球上的电子邮箱撒" placeholder="输入邮箱" required/>
+        </div>
+
+        <div class="am-form-group">
+          <label for="doc-vld-url-2-1">网址：</label>
+          <input type="url" id="doc-vld-url-2-1" placeholder="输入网址" required/>
+        </div>
+
+        <div class="am-form-group">
+          <label for="doc-vld-age-2-1">年龄：</label>
+          <input type="number" class=""  id="doc-vld-age-2-1" placeholder="输入年龄  18-120" min="18" max="120" required />
+        </div>
+
+        <div class="am-form-group">
+          <label class="am-form-label">爱好：</label>
+          <label class="am-checkbox-inline">
+            <input type="checkbox" value="橘子" name="docVlCb" minchecked="2" maxchecked="4" required> 橘子
+          </label>
+          <label class="am-checkbox-inline">
+            <input type="checkbox" value="苹果" name="docVlCb"> 苹果
+          </label>
+          <label class="am-checkbox-inline">
+            <input type="checkbox" value="菠萝" name="docVlCb"> 菠萝
+          </label>
+          <label class="am-checkbox-inline">
+            <input type="checkbox" value="芒果" name="docVlCb"> 芒果
+          </label>
+          <label class="am-checkbox-inline">
+            <input type="checkbox" value="香蕉" name="docVlCb"> 香蕉
+          </label>
+        </div>
+
+        <div class="am-form-group">
+          <label>性别： </label>
+          <label class="am-radio-inline">
+            <input type="radio"  value="" name="docVlGender" required> 男
+          </label>
+          <label class="am-radio-inline">
+            <input type="radio" name="docVlGender"> 女
+          </label>
+          <label class="am-radio-inline">
+            <input type="radio" name="docVlGender"> 其他
+          </label>
+        </div>
+
+        <div class="am-form-group">
+          <label for="doc-select-1-1">下拉单选框</label>
+          <select id="doc-select-1-1" required>
+            <option value="">-=请选择一项=-</option>
+            <option value="option1">选项一...</option>
+            <option value="option2">选项二.....</option>
+            <option value="option3">选项三........</option>
+          </select>
+          <span class="am-form-caret"></span>
+        </div>
+
+        <div class="am-form-group">
+          <label for="doc-vld-ta-2-1">评论：</label>
+          <textarea id="doc-vld-ta-2-1" minlength="10" maxlength="100"></textarea>
+        </div>
+
+        <button class="am-btn am-btn-secondary" type="submit">提交</button>
+      </fieldset>
+    </form>
+  </div>
+
+  <!-- form view end -->
+
+  <!-- footer start -->
+  <footer data-am-widget="footer" class="am-footer am-footer-default" data-am-footer="{  }">
+    <div class="am-footer-miscs ">
+      <p>感谢您的访问！</p>
+      <p>CopyRight©2014 zengzhiying.net Inc.</p>
+      <p><a href="http://www.miitbeian.gov.cn/" target="_blank">鲁ICP备14017209号-2</a></p>
+    </div>
+  </footer>
+  <!-- footer end -->
+
+
+  <!--[if (gte IE 9)|!(IE)]><!-->
+  <script src="assets/js/jquery.min.js"></script>
+  <!--<![endif]-->
+  <!--[if lte IE 8 ]>
+  <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+  <script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+  <![endif]-->
+  <script src="assets/js/amazeui.min.js"></script>
+
+
+
+  <script type="text/javascript">
+  //不添加以下代码就是html5原生验证
+  $(function() {
+    $('#doc-vld-msg').validator({
+      onValid: function(validity) {
+        $(validity.field).closest('.am-form-group').find('.am-alert').hide();
+      },
+
+      onInValid: function(validity) {
+        var $field = $(validity.field);
+        var $group = $field.closest('.am-form-group');
+        var $alert = $group.find('.am-alert');
+        // 使用自定义的提示信息 或 插件内置的提示信息
+        var msg = $field.data('validationMessage') || this.getValidationMessage(validity);
+
+        if (!$alert.length) {
+          $alert = $('<div class="am-alert am-alert-danger"></div>').hide().
+            appendTo($group);
+        }
+
+        $alert.html(msg).show();
+      }
+    });
+  });
+  </script>
+</body>
+</html>

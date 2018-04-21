@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>js关闭窗口</title>
+</head>
+<body>
+    <script type="text/javascript">
+        function closeWindow() {
+            self.opener = null;
+            self.open('', '_self');
+            self.close();
+        }
+    </script>
+
+    <a href="javascript:;" onclick="closeWindow()">关闭窗口</a>
+</body>
+</html>

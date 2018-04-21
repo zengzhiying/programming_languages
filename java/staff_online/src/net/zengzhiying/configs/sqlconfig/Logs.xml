@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+       Copyright 2009-2012 the original author or authors.
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+          http://www.apache.org/licenses/LICENSE-2.0
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+-->
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace区分不同的实体类，下面是不同的id，避免重复 -->
+<mapper namespace="Logs">
+  <!-- type配置类名称 id是resultMap标签的唯一名字 -->
+  <resultMap type="net.zengzhiying.beans.Logs" id="LogsResult">
+  <!-- id标签指定主键 column是数据库字段名，property是实体类属性名，jdbcType是数据库中字段类型，在java.sql.Types中有这些常量 -->
+    <id column="log_id" jdbcType="INTEGER" property="log_id"/>
+    <result column="log_type" jdbcType="VARCHAR" property="log_type"/>
+    <result column="log_time" jdbcType="INTEGER" property="log_time"/>
+    <result column="log_describe" jdbcType="VARCHAR" property="log_describe"/>
+  </resultMap>
+  <!-- id为该语句起一个唯一名字，表明作用,resultMap和上面resultMap的id属性相同，用来传值 -->
+  <!-- parameterType是用来向sql语句传递参数的类型 -->
+  
+  <!-- 查询日志列表 -->
+  <select id="queryLogs" resultMap="LogsResult">
+    SELECT * FROM sol_log WHERE 1=1 order by log_id desc limit 0,100
+  </select>
+  
+  <!-- 写入日志 日志不能修改只能写入 -->
+  <insert id="insertLogs" parameterType="net.zengzhiying.beans.Logs" useGeneratedKeys="true" keyProperty="log_id">
+  	INSERT INTO sol_log (log_type,log_time,log_describe) values (#{log_type},#{log_time},#{log_describe})
+  </insert>
+  
+</mapper>

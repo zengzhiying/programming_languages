@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="net.zengzhiying.beans.Notice" table="sol_notice">
+        <id name="nt_id" type="int">
+            <column name="nt_id" />
+            <generator class="native" />
+        </id>
+        <property name="nt_title" type="java.lang.String">
+            <column name="nt_title" />
+        </property>
+        <property name="nt_desc" type="java.lang.String">
+            <column name="nt_desc" />
+        </property>
+        <property name="nt_content" type="java.lang.String">
+            <column name="nt_content" />
+        </property>
+        <property name="nt_time" type="long">
+            <column name="nt_time" />
+        </property>
+    </class>
+</hibernate-mapping>

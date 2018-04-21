@@ -1,0 +1,1 @@
+# java socketio测试demo 客户端页面要放到web服务器然后通过浏览器来访问才可以请求socketio服务端 20170210

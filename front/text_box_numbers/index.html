@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>jquery 控制text文本框商品数量增加或商品数量减少</title>
+</head>
+
+<body>
+    <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+    <script type="text/javascript" src="js/payfor.js"></script>
+    <style type="text/css">
+        * {
+    margin: 0;
+    padding: 0;
+}
+
+a,img {
+    border: 0;
+    text-decoration: none;
+}
+
+body {
+    font: 12px/180% Arial, Helvetica, sans-serif, "新宋体";
+}
+/* p_number */
+.p_number {
+    border: solid 1px #ddd;
+    padding: 10px 0 0 10px;
+    width: 480px;
+    height: 80px;
+    margin: 40px auto;
+}
+
+.p_number .f_l {
+    float: left;
+}
+
+.p_number .add_chose {
+    width: 105px;
+}
+
+.p_number .add_chose a {
+    float: left;
+    margin: 5px 0 0 0;
+    display: block;
+    width: 15px;
+    height: 15px;
+    line-height: 99em;
+    overflow: hidden;
+    background: url(images/reduce-add.gif) no-repeat;
+}
+
+.p_number .add_chose a.reduce {
+    background-position: 0 0;
+}
+
+.p_number .add_chose a.reduce:hover {
+    background-position: 0 -16px;
+}
+
+.p_number .add_chose a.add {
+    background-position: -16px 0;
+}
+
+.p_number .add_chose a.add:hover {
+    background-position: -16px -16px;
+}
+
+.p_number .add_chose .text {
+    float: left;
+    margin: 0 5px;
+    display: inline;
+    border: solid 1px #ccc;
+    padding: 4px 3px 4px 8px;
+    width: 40px;
+    line-height: 18px;
+    font-size: 14px;
+    color: #990000;
+    font-weight: 800;
+}
+
+.p_number .buy {
+    line-height: 2em;
+}
+
+.p_number .buy .total-font {
+    font-family: Arial;
+    font-size: 26px;
+}
+
+.p_number .buy .jifen {
+    margin-left: 20px;
+    color: #ACACAC;
+}
+
+.p_number .buy .jifen b {
+    margin: 0 3px;
+}
+    </style>
+    <div class="p_number">
+        <div style="height:36px;font-size:16px;">商品单价：<strong id="price_item_1">￥350.00</strong>
+        </div>
+        <div class="f_l add_chose">	<a class="reduce" onClick="setAmount.reduce('#qty_item_1')" href="javascript:void(0)">-</a>
+            <input type="text" name="qty_item_1" value="1" id="qty_item_1" onKeyUp="setAmount.modify('#qty_item_1')" class="text" />	<a class="add" onClick="setAmount.add('#qty_item_1')" href="javascript:void(0)">+</a>
+        </div>
+        <div class="f_l buy">总价：<span class="total-font" id="total_item_1">￥89.00</span>
+            <input type="hidden" name="total_price" id="total_price" value="" />	<span class="jifen">购买商品可获得：<b id="total_points">18</b>积分</span>
+        </div>
+    </div>
+</body>
+
+</html>

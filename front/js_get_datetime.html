@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>
+        javascript时间获取实例
+    </title>
+</head>
+<body>
+    <script type="text/javascript">
+        var myDate=new Date();  //定义时间变量
+        document.write(myDate.getYear());   //获取当前年份，2位数
+        document.write("<\/br>");
+        document.write(myDate.getFullYear());   //当前年份，4位
+        document.write("<\/br>");
+        document.write(myDate.getMonth()+1);        //当前月份0-11，0代表1月，依次加1
+        document.write("<\/br>");
+        document.write(myDate.getDate());       //当前几号
+        document.write("<\/br>");
+        document.write(myDate.getDay());        //当前星期x
+        document.write("<\/br>");
+        document.write(myDate.getTime());       //当前时间，从1970.01.01开始的毫秒数
+        document.write("<\/br>");
+        document.write(myDate.getHours());      //当前小时数，0-23
+        document.write("<\/br>");
+        document.write(myDate.getMinutes());        //当前分钟数0-59
+        document.write("<\/br>");
+        document.write(myDate.getMilliseconds());       //当前毫秒数0-999
+        document.write("<\/br>");
+        document.write(myDate.toLocaleDateString());        //当前日期
+        document.write("<\/br>");
+        document.write(myDate.toLocaleTimeString());        //当前时间
+        document.write("<\/br>");
+        document.write(myDate.toLocaleString());        //当前日期与时间
+    </script>
+
+    <br /><br />
+    <!-- 获取本地时间并动态更新 -->
+    <div id="linkweb">
+        
+    </div>
+    <script>
+        setInterval("linkweb.innerHTML=new Date().toLocaleString()+' 星期'+'日一二三四五六'.charAt(new Date().getDay());",1000);
+    </script>
+
+</body>
+</html>

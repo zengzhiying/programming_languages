@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="net.zengzhiying.beans.CheckWork" table="sol_checkwork">
+        <id name="message_id" type="int">
+            <column name="message_id" />
+            <generator class="native" />
+        </id>
+        <property name="user_id" type="int">
+            <column name="user_id" />
+        </property>
+        <property name="morn_time" type="long">
+            <column name="morn_time" />
+        </property>
+        <property name="aft_time" type="long">
+            <column name="aft_time" />
+        </property>
+        <property name="sign_date" type="java.lang.String">
+            <column name="sign_date" />
+        </property>
+        <property name="sign_week" type="java.lang.String">
+            <column name="sign_week" />
+        </property>
+    </class>
+</hibernate-mapping>

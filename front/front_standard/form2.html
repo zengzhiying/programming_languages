@@ -1,0 +1,144 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>跳转表单标准页面</title>
+
+  <!-- Set render engine for 360 browser -->
+  <meta name="renderer" content="webkit">
+
+  <!-- No Baidu Siteapp-->
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+  <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+
+  <!-- Tile icon for Win8 (144x144 + tile color) -->
+  <meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
+  <meta name="msapplication-TileColor" content="#0e90d2">
+
+  <link rel="stylesheet" href="assets/css/amazeui.min.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <style>
+    /* 自定义表单提示样式 */
+    #vld-tooltip {
+      position: absolute;
+      z-index: 1000;
+      padding: 5px 10px;
+      background: #F37B1D;
+      min-width: 150px;
+      color: #fff;
+      transition: all 0.15s;
+      box-shadow: 0 0 5px rgba(0,0,0,.15);
+      display: none;
+    }
+
+    #vld-tooltip:before {
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      width: 0;
+      height: 0;
+      margin-left: -8px;
+      content: "";
+      border-width: 0 8px 8px;
+      border-color: transparent transparent #F37B1D;
+      border-style: none inset solid;
+    }
+  </style>
+</head>
+<body>
+  <div class="am-g am-g-fixed" style="margin-top:36px;">
+    <div class="am-u-sm-6 am-u-end">
+        <p style="font-size:21px;">应用标题</p>
+    </div>
+  </div>
+
+  <!-- form view start-->
+  <div class="am-container" style="margin-top:18px;">
+    <form action="do2.html" class="am-form" id="form-with-tooltip">
+      <fieldset>
+        <legend>自定义 Tooltip</legend>
+        <div class="am-form-group">
+          <label for="doc-vld-name-2-0">用户名：</label>
+          <input type="text" id="doc-vld-name-2-0" minlength="3"
+                 placeholder="输入用户名（至少 3 个字符）" required/>
+        </div>
+
+        <div class="am-form-group">
+          <label for="doc-vld-pwd-1-0">密码：</label>
+          <input type="password" id="doc-vld-pwd-1-0" placeholder="6 位数字的银行卡密码" pattern="^\d{6}$" required data-foolish-msg="把 IQ 卡密码交出来！"/>
+        </div>
+
+        <button class="am-btn am-btn-secondary" type="submit">提交</button>
+      </fieldset>
+    </form>
+  </div>
+
+  <!-- form view end -->
+
+  <!-- footer start -->
+  <footer data-am-widget="footer" class="am-footer am-footer-default" data-am-footer="{  }">
+    <div class="am-footer-miscs ">
+      <p>感谢您的访问！</p>
+      <p>CopyRight©2014 zengzhiying.net Inc.</p>
+      <p><a href="http://www.miitbeian.gov.cn/" target="_blank">鲁ICP备14017209号-2</a></p>
+    </div>
+  </footer>
+  <!-- footer end -->
+
+
+  <!--[if (gte IE 9)|!(IE)]><!-->
+  <script src="assets/js/jquery.min.js"></script>
+  <!--<![endif]-->
+  <!--[if lte IE 8 ]>
+  <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+  <script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+  <![endif]-->
+  <script src="assets/js/amazeui.min.js"></script>
+
+
+
+  <script type="text/javascript">
+  //不添加以下代码就是html5原生验证
+  $(function() {
+    var $form = $('#form-with-tooltip');
+    var $tooltip = $('<div id="vld-tooltip">提示信息！</div>');
+    $tooltip.appendTo(document.body);
+
+    $form.validator();
+
+    var validator = $form.data('amui.validator');
+
+    $form.on('focusin focusout', '.am-form-error input', function(e) {
+      if (e.type === 'focusin') {
+        var $this = $(this);
+        var offset = $this.offset();
+        var msg = $this.data('foolishMsg') || validator.getValidationMessage($this.data('validity'));
+
+        $tooltip.text(msg).show().css({
+          left: offset.left + 10,
+          top: offset.top + $(this).outerHeight() + 10
+        });
+      } else {
+        $tooltip.hide();
+      }
+    });
+  });
+  </script>
+</body>
+</html>

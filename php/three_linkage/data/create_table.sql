@@ -1,0 +1,1 @@
+CREATE TABLE `devproject`.`tb_area` ( `area_id` INT UNSIGNED NOT NULL AUTO_INCREMENT , `area_name` VARCHAR(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL , `area_parent` INT(11) NOT NULL , PRIMARY KEY (`area_id`) ) ENGINE = InnoDB CHARACTER SET utf8 COLLATE utf8_general_ci;

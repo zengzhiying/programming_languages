@@ -1,0 +1,275 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>直流电阻换算</title>
+
+  <!-- Set render engine for 360 browser -->
+  <meta name="renderer" content="webkit">
+
+  <!-- No Baidu Siteapp-->
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+  <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+
+  <!-- Tile icon for Win8 (144x144 + tile color) -->
+  <meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
+  <meta name="msapplication-TileColor" content="#0e90d2">
+
+  <link rel="stylesheet" href="assets/css/amazeui.min.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+  <div class="am-g am-g-fixed" style="margin-top:36px;">
+    <div class="am-u-sm-6 am-u-end">
+        <p style="font-size:21px;">直流电阻换算</p>
+    </div>
+  </div>
+
+  <!-- form view start-->
+  <div class="am-container" style="margin-top:18px;">
+      <div class="am-g">
+          <div class="am-u-sm-1">
+              <p>&nbsp;</p>
+          </div>
+          <div class="am-u-sm-8 am-u-end">
+              <span>请选择计算方式：</span>
+              <div class="am-radio">
+                <label>
+                  <input type="radio" name="compute_type" value="t" checked>
+                  三角形接法计算
+                </label>
+              </div>
+
+              <div class="am-radio">
+                <label>
+                  <input type="radio" name="compute_type" value="y">
+                  Y形接法计算
+                </label>
+              </div>
+              <p>
+                  请在下面分别输入提示内容:
+              </p>
+              <span class="" id="input_error1">
+                  <input type="text" class="am-form-field am-radius" id="rab" value="" placeholder="请输入Rab">
+              </span>
+              <p>
+              </p>
+              <span class="" id="input_error2">
+                  <input type="text" class="am-form-field am-radius" id="rbc" value="" placeholder="请输入Rbc">
+              </span>
+              <p>
+              </p>
+              <span class="" id="input_error3">
+                  <input type="text" class="am-form-field am-radius" id="rca" value="" placeholder="请输入Rca">
+              </span>
+              <p>
+              </p>
+              <span class="" id="input_error4">
+                  <input type="text" class="am-form-field am-radius" id="tx" value="" placeholder="换算至温度(℃) Tx">
+              </span>
+              <p>
+              </p>
+              <span class="" id="input_error5">
+                  <input type="text" class="am-form-field am-radius" id="coefficient" value="" placeholder="温度测算系数 (铜线235,绿线225) T">
+              </span>
+              <p>
+              </p>
+              <span class="" id="input_error6">
+                  <input type="text" class="am-form-field am-radius" id="ta" value="" placeholder="测量时的温度值(℃) Ta">
+              </span>
+              <p>
+              </p>
+              <button type="button" id="start_compute" class="am-btn am-btn-secondary">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;计&nbsp;&nbsp;算&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+          </div>
+      </div>
+
+      <br />
+      <div class="am-g">
+          <!-- 错误提示输出的容器 -->
+          <div class="am-panel am-panel-success" style="display:none;" id="alert_box">
+              <div class="am-panel-bd" id="alert_content"></div>
+          </div>
+
+
+          <!-- 应用执行结果的输出容器 -->
+          <div class="am-panel am-panel-secondary" id="show_box" style="display:none;">
+              <div class="am-panel-hd" id="show_content1"></div>
+              <div class="am-panel-bd" id="show_content2">
+                  
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <!-- form view end -->
+
+  <!-- footer start -->
+  <footer data-am-widget="footer" class="am-footer am-footer-default" data-am-footer="{  }">
+    <div class="am-footer-miscs ">
+      <p>感谢您的访问！</p>
+      <p>CopyRight©2017 zengzhiying.net Inc.</p>
+      <p><a href="http://www.miitbeian.gov.cn/" target="_blank">鲁ICP备14017209号-2</a></p>
+    </div>
+  </footer>
+  <!-- footer end -->
+
+
+  <!--[if (gte IE 9)|!(IE)]><!-->
+  <script src="assets/js/jquery.min.js"></script>
+  <!--<![endif]-->
+  <!--[if lte IE 8 ]>
+  <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+  <script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+  <![endif]-->
+  <script src="assets/js/amazeui.min.js"></script>
+
+
+
+  <!-- js验证逻辑 -->
+
+  <script type="text/javascript">
+    function average(a, b, c) {
+      return (a + b + c)/3.0;
+    }
+    //查询Ajax事件
+    $(document).ready(function() {
+        $("#start_compute").click(function() {
+            //提示信息初始化
+            var alert_content = '<img src="./assets/i/landing.gif" >&nbsp;正在计算，请稍后...';
+            $("#alert_content").html(alert_content);
+            $("#alert_box").show();
+            $("#input_error1").attr("class","");
+            $("#input_error2").attr("class","");
+            $("#input_error3").attr("class","");
+            $("#input_error4").attr("class","");
+            $("#input_error5").attr("class","");
+            $("#input_error6").attr("class","");
+            $("#show_box").hide();
+            //js 简单验证逻辑 多个表单继续补充此处
+            var compute_type = $("input[name='compute_type']:checked").val();
+            console.log(compute_type);
+            if(compute_type != 't' && compute_type != 'y') {
+                $("#alert_content").html("计算方式选择错误！");
+                return false;
+            }
+            var rab = $("#rab").val();
+            var rbc = $("#rbc").val();
+            var rca = $("#rca").val();
+            var tx = $("#tx").val();
+            var coefficient = $("#coefficient").val();
+            var ta = $("#ta").val();
+
+            var f_pattern = new RegExp('^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$');
+            if(rab == '' || !f_pattern.test(rab)) {
+                $("#input_error1").attr("class","am-form-error");
+                $("#alert_content").html("rab输入错误！");
+                return false;
+            }
+            if(rbc == '' || !f_pattern.test(rbc)) {
+                $("#input_error2").attr("class","am-form-error");
+                $("#alert_content").html("rbc输入错误！");
+                return false;
+            }
+            if(rca == '' || !f_pattern.test(rca)) {
+                $("#input_error3").attr("class","am-form-error");
+                $("#alert_content").html("rca输入错误！");
+                return false;
+            }
+            if(tx == '' || !f_pattern.test(tx)) {
+                $("#input_error4").attr("class","am-form-error");
+                $("#alert_content").html("Tx输入错误！");
+                return false;
+            }
+            if(coefficient == '' || !f_pattern.test(coefficient)) {
+                $("#input_error5").attr("class","am-form-error");
+                $("#alert_content").html("温度换算系数输入错误！");
+                return false;
+            }
+            if(ta == '' || !f_pattern.test(ta)) {
+                $("#input_error6").attr("class","am-form-error");
+                $("#alert_content").html("Ta输入错误！");
+                return false;
+            }
+            console.log("start compute.");
+
+            rab = parseFloat(rab);
+            rbc = parseFloat(rbc);
+            rca = parseFloat(rca);
+            tx = Number(tx);
+            coefficient = Number(coefficient);
+            ta = Number(ta);
+            // 开始计算
+            
+
+            if(compute_type == 't') {
+              console.log("三角形计算.")
+              var t = Math.pow(rab, 2) + Math.pow(rbc, 2) - Math.pow(rca, 2) - 3*Math.pow((rab - rbc), 2);
+              // console.log("t: " + t);
+              var ra = t/(2.0 * (rbc + rca - rab));
+              // console.log(ra);
+              var rb = t/(2.0 * (rab + rca - rbc));
+              // console.log(rb);
+              var rc = t/(2.0 * (rbc + rab - rca));
+            }
+            if(compute_type == 'y') {
+              console.log("Y形计算.")
+              var ra = (rab + rca - rbc)/2.0
+              var rb = (rbc + rab - rca)/2.0
+              var rc = (rbc + rca - rab)/2.0
+            }
+            console.log("ra: " + ra)
+            console.log("rb: " + rb)
+            console.log("rc: " + rc)
+            var m = (coefficient + tx)/(coefficient + ta);
+            ra *= m;
+            rb *= m;
+            rc *= m;
+            k = (Math.max(ra, rb, rc) - Math.min(ra, rb, rc))/average(ra, rb, rc)
+            k *= 100
+            var kab = (ra - rb)*100/Math.min(ra, rb)
+            var kbc = (rb - rc)*100/Math.min(rb, rc)
+            var kca = (rc - ra)*100/Math.min(ra, rc)
+            kab = Math.abs(kab)
+            kbc = Math.abs(kbc)
+            kca = Math.abs(kca)
+            $("#alert_box").hide();
+            $("#show_content1").html("计算结果:");
+            $("#show_content2").html("<span>不平衡率K: " + k.toFixed(3) + "% </span><br />");
+            $("#show_content2").append("<span>互差Kab: " + kab.toFixed(3) + "% </span><br />")
+            $("#show_content2").append("<span>互差Kbc: " + kbc.toFixed(3) + "% </span><br />")
+            $("#show_content2").append("<span>互差Kca: " + kca.toFixed(3) + "% </span><br />")
+            $("#show_content2").append("<br /><span>标准规定：当容量等于或小于1600kVA时，要求相电阻不平衡率≤4、线电阻不平衡率≤2。</span><br />")
+            $("#show_content2").append("<span>当容量更大时，则相电阻不平衡率（中性点引出时）和线电阻不平衡率≤2</span><br />")
+            $("#show_box").show('slow');
+            return true;
+
+            //jquery ajax 高层实现 异步回调
+            // $.get("/webapps", {"input_text":input_text}, function(data) {
+            //     $("#alert_box").hide();
+            //     $("#show_content1").html("查询结果");
+            //     $("#show_content2").html(data);
+            //     $("#show_box").show('slow');
+            //     return true;
+            // });
+
+        });
+    });
+  </script>
+</body>
+</html>

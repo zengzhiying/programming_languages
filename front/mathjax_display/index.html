@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>MathJax TeX Test Page</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
+  });
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/2.0-latest/MathJax.js?config=TeX-AMS_HTML-full"></script>
+<style type="text/css">
+	math * {margin:0.2em;padding:0.05em}
+</style>
+</head>
+<body>
+
+<p>
+如果 $a \ne 0$, 则方程 \(ax^2 + bx + c = 0\) 有两个不同的根
+$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+</p>
+
+<p>大括号的例子</p>
+\[ \left( \sum_{k=1}^n a_k b_k \right)^2 \leq \left( \sum_{k=1}^n a_k^2 \right) \left( \sum_{k=1}^n b_k^2 \right) \]
+<p>矩阵的例子</p>
+\[\mathbf{V}_1 \times \mathbf{V}_2 =  \begin{vmatrix}
+\mathbf{i} &#038; \mathbf{j} &#038; \mathbf{k} \\
+\frac{\partial X}{\partial u} &#038;  \frac{\partial Y}{\partial u} &#038; 0 \\               \frac{\partial X}{\partial v} &#038;  \frac{\partial Y}{\partial v} &#038; 0
+\end{vmatrix}  \]
+
+<p>积分</p>
+\[ \int_0^1 x^2 {\rm d}x = \int_0^t E {\rm d}t \]
+$$ \sqrt{2} $$
+$$ \int_0^1 f(x) dx $$
+
+
+<span id="span01"> $ {^A_B} $ </span> $ {^C_D}\}\Rightarrow $ <span id="span02"> $ C $ </span>
+
+
+<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+<script type="text/javascript">
+	$("#span01").attr("style","font-size:23px;");
+	$("#span02").attr("style","font-size:32px;");
+</script>
+</body>
+</html>

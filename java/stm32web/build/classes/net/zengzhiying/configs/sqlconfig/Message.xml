@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+       Copyright 2009-2012 the original author or authors.
+
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+
+-->
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace区分不同的实体类，下面是不同的id，避免重复 -->
+<mapper namespace="Message">
+
+  <!-- type配置类名称 id是resultMap标签的唯一名字 -->
+  <resultMap type="net.zengzhiying.beans.Message" id="MessageResult">
+  <!-- id标签指定主键 column是数据库字段名，property是实体类属性名，jdbcType是数据库中字段类型，在java.sql.Types中有这些常量 -->
+    <id column="id" jdbcType="INTEGER" property="id"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="content" jdbcType="VARCHAR" property="content"/>
+    <!-- 
+    <result column="administrator" jdbcType="BOOLEAN" property="administrator"/>
+     -->
+  </resultMap>
+
+  <!-- id为该语句起一个唯一名字，表明作用,resultMap和上面resultMap的id属性相同，用来传值 -->
+  <!-- parameterType是用来向sql语句传递参数的类型 -->
+  <select id="queryAll" parameterType="long" resultMap="MessageResult">
+    SELECT * FROM message WHERE 1=1
+  </select>
+  
+  <!-- 传递一个检索条件 -->
+  <select id="queryParam" parameterType="String" resultMap="MessageResult">
+    SELECT * FROM message WHERE 1=1 and password=#{password}
+  </select>
+  
+  <!-- 传递多个检索条件，即对象 ，内嵌多种判断逻辑，调用Java方法-->
+  <select id="queryMessage" parameterType="net.zengzhiying.beans.Message" resultMap="MessageResult">
+    SELECT * FROM message WHERE 1=1
+    <!-- if标签从传入的代码进行取值，代码传值更健壮 ，多条件拼接-->
+    <if test="name != null &amp;&amp; !(&quot;&quot;.equals(name))">
+    	and name=#{name}
+    </if>
+    <if test="password != null &amp;&amp; !(&quot;&quot;.equals(password))">
+    	and password like '%' #{password} '%'
+    </if>
+  </select>
+  
+  <!-- 删除单条信息 传入参数id-->
+  <delete id="deleteOne" parameterType="int">
+  	DELETE FROM message where id=#{_parameter}
+  </delete>
+  
+  <!-- 批量删除 -->
+  <delete id="deleteBatch" parameterType="java.util.List">
+  	DELETE FROM message where id in (
+  		<!-- separator 指定分割符 mybatis自己拼写 -->
+  		<foreach collection="list" item="item" separator=",">
+  			#{item}
+  		</foreach>
+  	)
+  </delete>
+  
+  <!-- 更新一条信息 -->
+  <update id="updateOne" parameterType="net.zengzhiying.beans.Message">
+    UPDATE message SET name=#{name},password=#{password} WHERE id=#{id}
+  </update>
+  
+  <!-- 插入一条信息 可以凑成List按照事务提交  useGeneratedKeys指定由mybatis自己寻找mysql主键 keyProperty将指定字段注入主键-->
+  <insert id="insertOne" parameterType="net.zengzhiying.beans.Message" useGeneratedKeys="true" keyProperty="id">
+  	INSERT INTO message (id,name,password) values (#{id},#{name},#{password})
+  </insert>
+
+
+</mapper>

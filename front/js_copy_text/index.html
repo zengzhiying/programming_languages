@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>js实现点击复制的功能</title>
+	<script type="text/javascript" src="./js/jquery-1.8.1.min.js"></script>
+	<script type="text/javascript" src="./js/jquery.zclip.min.js"></script>
+</head>
+<body>
+	<input type="text" value="www.baidu.com" id="link">
+	<button id="copybtn">复制链接</button>
+	<a href="javascript:;" id="copylink">复制链接</a>
+
+	<script type="text/javascript">
+	$('#copylink').zclip({
+		path: "ZeroClipboard.swf",
+		copy: function() {
+			return $('#link').val();
+		}
+	});
+	</script>
+
+
+	<script type="text/javascript">
+	function appInfo(){
+    var browser = {appname: 'unknown', version: 0},
+        userAgent = window.navigator.userAgent.toLowerCase();
+//IE,firefox,opera,chrome,netscape
+    if ( /(msie|firefox|opera|chrome|netscape)\D+(\d[\d.]*)/.test( userAgent ) ){
+        browser.appname = RegExp.$1;
+        browser.version = RegExp.$2;
+    } else if ( /version\D+(\d[\d.]*).*safari/.test( userAgent ) ){ // safari
+        browser.appname = 'safari';
+        browser.version = RegExp.$2;
+    }
+    return browser;
+}
+
+	</script>
+
+	<script>
+var testBrowser = appInfo();
+	document.write(testBrowser.appname+testBrowser.version);
+</script>
+</body>
+</html>

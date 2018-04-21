@@ -1,0 +1,1 @@
+mathjax文档:http://mathjax-chinese-doc.readthedocs.org/en/latest/start.html
