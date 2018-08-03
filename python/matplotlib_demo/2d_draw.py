@@ -1,5 +1,7 @@
-#C:\Python27\python.exe
+#!/usr/bin/env python
 # coding=utf-8
+"""使用matplotlib模块绘制基本的平面图表
+"""
 import matplotlib.pyplot as plt
 
 year = [1991, 1992, 1993, 1994, 1995]
