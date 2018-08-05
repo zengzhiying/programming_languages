@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
+"""logging日志模块基本的配置, 只用于测试, 不建议用于生产环境
+生产环境请使用标准的配置方式参考: logger_demo.py
+"""
 import logging
 from logging.handlers import RotatingFileHandler
 # 配置
