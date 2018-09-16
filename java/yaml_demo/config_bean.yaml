@@ -1,0 +1,5 @@
+# yaml bean 配置文件示例 (配置项只能少不能多)
+
+host: bigdata1
+
+number1: 12

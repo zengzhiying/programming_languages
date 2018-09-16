@@ -1,0 +1,47 @@
+# yaml 配置文件示例
+
+# 字典结构
+host: bigdata1
+# 嵌套字典
+hbase:
+  host: hbase1
+  port: 8009
+  zookeeper:
+    host: zookeeper1
+    port: 2181
+    node: /hbase
+# 列表1
+hosts1: [bigdata1, bigdata2]
+# 列表2
+hosts2:
+  - hadoop1
+  - hadoop2
+  - hadoop3
+
+# 整数类型
+number1: 16
+# 浮点数
+number2: 3.142
+# 布尔值
+is_number: true
+
+# null值
+this_null: ~
+
+# 字符串, 不是数字等类型直接写即可
+string1: str1
+# 字符串, 和基本类型冲突或者带空格
+string2: '361'
+string3: 'this is string.'
+# 单引号会自动对特殊字符转义, 双引号会原样保留
+string4: 'enter\n'
+string5: "enter\n"
+# 多行文本, 每行开头必须有一个空格, 换行会自动转换为空格
+text1: 但愿人长久,
+ 千里共婵娟
+# 保留空格
+text2: |
+  非淡泊无以明志,
+  非宁静无以致远.
+
+
