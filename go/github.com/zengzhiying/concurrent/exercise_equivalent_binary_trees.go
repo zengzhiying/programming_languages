@@ -46,4 +46,8 @@ func main() {
     for v := range ch {
         fmt.Println(v)
     }
+
+    fmt.Println(Same(tree.New(1), tree.New(1)))
+    fmt.Println(Same(tree.New(1), tree.New(2)))
+    fmt.Println(Same(tree.New(2), tree.New(2)))
 }
