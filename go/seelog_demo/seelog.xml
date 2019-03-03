@@ -1,0 +1,33 @@
+<seelog minlevel="debug" maxlevel="critical">
+    <outputs formatid="main">
+        <console />
+        <rollingfile formatid="someformat" type="size" filename="./logs/demo.log" maxsize="1048576" maxrolls="2" />
+        <filter levels="error,critical">
+            <file formatid="someformat" path="./logs/demo_error.log"/>
+            <!-- <smtp senderaddress="noreply-notification-service@none.org" 
+                  sendername="Automatic notification service" 
+                  hostname="mail.none.org" 
+                  hostport="587" 
+                  username="nns" 
+                  password="123">
+                <recipient address="john-smith@none.com"/>
+                <recipient address="hans-meier@none.com"/>
+            </smtp>
+            <conn net="tcp4" addr="server.address:5514" tls="true" insecureskipverify="true" /> -->
+        </filter>
+    </outputs>
+    <formats>
+        <!-- %Level: 首字母大写级别; %LEVEL: 全部大写; %Lev/%LEV: 简写的两种方式; %l: 超紧凑的级别
+            %File: 日志发出的程序文件名; %RelFile: 相对于执行目录的调用者路径
+            %Func: 函数全名, 包括包名; %FuncShort: 仅定位到函数名 
+            %Line: 行号
+            %Date: 日期格式, 默认为: 2006-01-02; %Time: 时间格式, 默认为: 15:04:05
+            %Date(format): 时间格式化方式, 比如: 2006-01-02 15:04:05
+            %Ns: 精确到纳秒的Unix时间戳: time.Now().UnixNano()
+            %EscM(数字) 控制台颜色, 49背景重置, 37字体变白, 0全部重置/关闭所有属性
+        -->
+        <format id="main" format="%EscM(95)%Date %Time%EscM(49) %EscM(36)[%Level]%EscM(37) %Msg%n%EscM(0)" />
+        <format id="someformat" format="%Date(2006-01-02 15:04:05) [%LEVEL] - %Msg%n" />
+        <format id="errorformat" format="%Date(2006-01-02 15:04:05).%Ns %File[%Func:%Line] [%LEVEL] - %Msg%n" />
+    </formats>
+</seelog>
