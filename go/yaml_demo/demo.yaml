@@ -1,0 +1,8 @@
+a: 'this is string'
+b: ["abc", 4, 5]
+c:
+  user_id: 3
+  age: 23
+  user_name: "zzy"
+  vip: true
+  nick: ["zzy1", "zzy2"]
