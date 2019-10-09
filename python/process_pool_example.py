@@ -1,13 +1,23 @@
 #!/usr/bin/env python
 # coding=utf-8
 """python进程池测试案例
+进程间通信建议使用进程间队列, 但是注意进程间队列的性能比较低下, 不能用在要求高的场景
+性能最佳的方式是所有进行独立并发执行, 没有通信
 """
 
 import time
 import random
 import math
+import multiprocessing
 from multiprocessing import Pool
 from multiprocessing import Queue
+
+def test(s):
+    print "hello %s" % s
+    iii = random.randint(0,5)
+    print iii
+    time.sleep(iii)
+    return ""
 
 def test1(msg):
     print "msg: %s" % msg
@@ -27,6 +37,18 @@ def test3(datas, n):
     return data_sum
 
 if __name__ == '__main__':
+    # 进程池并行处理
+    s = 'kk'
+    pool = multiprocessing.Pool(processes=10)
+    for i in range(100):
+       msg = str(i)
+       pool.apply_async(test, (msg,))
+    print 'close'
+    pool.close()
+    print 'join'
+    pool.join()
+    print "done"
+
     # 初始化进程池 初始化之后进程数量就确定了
     # 如果不指定进程池大小 默认根据计算机CPU核数自动分配
     print "初始化进程池."
