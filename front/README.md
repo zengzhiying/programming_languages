@@ -17,3 +17,4 @@
 14. js_get_datetime.html -> js获取各种时间参数示例
 15. js_run_code.html -> js实现运行文本框中的代码
 16. sensitive_words_filter.html -> js实现敏感词过滤
+17. happy_birthday -> 生日快乐模板页, 资源来自网络
