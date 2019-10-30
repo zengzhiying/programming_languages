@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn" strict="true" name="Log4j2XMLConfig">
+  <!-- 实际运行时, 该配置文件要放到外部的classpath目录, 便于修改 -->
+  <Properties>
+    <Property name="log_filename">logs/test.log</Property>
+
+    <Property name="log_bak_name1">logs/demo</Property>
+    <Property name="log_filename1">logs/demo.log</Property>
+  </Properties>
+ 
+  <Appenders>
+    <Appender type="Console" name="STDOUT">
+      <!-- 格式:
+        %d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] %class{36} %L %M - %msg%xEx%n
+        %L 行数, %M 方法, %class 类全名
+        %-5level: 级别, 占用5位
+        -->
+      <Layout type="PatternLayout" pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%level] %class{36} - %m%n"/>
+    </Appender>
+
+    <!-- 普通文件日志 append为false表示每次覆盖文件, 默认为true, 即追加 -->
+    <File name="FileAppender" fileName="${log_filename}" append="false">
+      <Layout type="PatternLayout">
+        <Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%level] - %msg%xEx%n</Pattern>
+      </Layout>
+    </File>
+
+    <!-- 日志设置大小和回滚个数 这里根据后缀是.log还是.log.gz自动设置压缩或者不压缩 -->
+    <RollingFile name="RollingFileAppender" fileName="${log_filename1}"
+                 filePattern="${log_bak_name1}-%d{yyyy-MM-dd}.%i.log.gz"
+                 append="true">
+      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%level] - %msg%xEx%n"></PatternLayout>
+      <Policies>
+        <TimeBasedTriggeringPolicy></TimeBasedTriggeringPolicy>
+        <SizeBasedTriggeringPolicy size="64MB"></SizeBasedTriggeringPolicy>
+      </Policies>
+      <DefaultRolloverStrategy max="7"></DefaultRolloverStrategy>
+    </RollingFile>
+  </Appenders>
+ 
+  <Loggers>
+    <!-- 这里自定义log要设置指定包或类 -->
+    <Logger name="com.monchickey.Log4jExample" level="debug">
+      <AppenderRef ref="FileAppender"></AppenderRef>
+    </Logger>
+    <!-- root下面设置全局的日志 -->
+    <Root level="info">
+      <!--<AppenderRef ref="FileAppender"/>-->
+      <AppenderRef ref="STDOUT"/>
+      <AppenderRef ref="RollingFileAppender"></AppenderRef>
+    </Root>
+  </Loggers>
+ 
+</Configuration>

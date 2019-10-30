@@ -13,3 +13,6 @@ java学习和测试的项目代码
 10. web_server -> Spring MVC的基本配置项目
 11. dom4j_xml_demo -> dom4j解析和生成xml的示例代码
 12. simulation_form_request -> java模拟前端表单发送post请求实例, 包括输入框和文件上传
+13. jsoniter_demo -> jsoniter解析和编译json示例项目
+14. yaml_demo -> yaml配置文件解析示例代码
+15. log4j_example -> log4j日志库配置和使用示例代码
