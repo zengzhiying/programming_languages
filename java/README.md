@@ -16,3 +16,5 @@ java学习和测试的项目代码
 13. jsoniter_demo -> jsoniter解析和编译json示例项目
 14. yaml_demo -> yaml配置文件解析示例代码
 15. log4j_example -> log4j日志库配置和使用示例代码
+16. httpclient-example -> 使用apache httpclient模块发送http请求示例代码
+17. socket-httpserver -> 使用java socket实现简单的http服务器
