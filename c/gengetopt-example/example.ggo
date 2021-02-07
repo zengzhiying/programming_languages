@@ -1,0 +1,14 @@
+package "example"
+version "1.0"
+purpose "Gengetopt use example."
+usage "example usage: "
+description "This Gengetopt example."
+versiontext "version: 1.0.0"
+
+option "host" h "Socket host." string required
+option "port" p "Socket port." int required
+option "conf" c "Config file." string default="/etc/gengetopt.conf" optional 
+option "log" - "Whether to open the log." flag off
+option "parallel" P "Parallelism." int default="4" optional
+option "num" - "Data num." int optional multiple
+option "value" - "Data value" string optional multiple
