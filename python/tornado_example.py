@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # coding=utf-8
 import time
 import os
@@ -67,12 +68,37 @@ class AsyncTestHandler(tornado.web.RequestHandler):
     #     # raise gen.Return(response.body)
     #     self.write(response.body)
 
+class UploadFileHandler(tornado.web.RequestHandler):
+    """接收表单文件上传"""
+    _executor_pool = ThreadPoolExecutor(30)
+    def get(self):
+        self.write("")
+        
+    @run_on_executor(executor='_executor_pool')
+    def post(self):
+        print("request method post.")
+
+        # 示例默认只取第一张
+        image_file = self.request.files['image'][0]['body']
+        name = self.get_body_argument('name')
+
+        # 保存接收的图片
+        with open('upload.jpg', 'wb') as f:
+            f.write(image_file)
+
+        print('name: {}'.format(name))
+
+        rep = {'status': 0, "message": "success"}
+        self.write(json.dumps(rep))
+
+
 def make_app():
     return tornado.web.Application([
         (r"/", MainHandler),
         tornado.web.url(r"/req/([0-9]+)", TestHandler, dict(p='haha'), name='kaka'),
         (r"/threads", ThreadPoolTestHandler),
-        (r"/async", AsyncTestHandler)
+        (r"/async", AsyncTestHandler),
+        (r"/form_upload", UploadFileHandler)
     ])
 
 if __name__ == "__main__":
