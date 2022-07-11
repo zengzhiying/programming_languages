@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <style type="text/css">
+        .greenbtn{border:1px solid #50b1fb;
+            background-color:#6abcfc;
+        }
+        .greenbtn:hover{opacity: .85}
+        .redbtn{
+            border:  1px solid #CC0099;
+            background-color: #CC0099;
+        }
+        .redbtn:hover{opacity: .85;}
+        button {
+        margin: 0 12px;
+        display: inline-block;
+        width: 141px;
+        height: 33px;
+        line-height: 33px;
+        font-size: 14px;
+        border-radius: 3px;
+        color: #fff;
+        text-align: center;
+        cursor: pointer;
+        display: none;
+        padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <button class="greenbtn" id="play" onclick="state_switch()" style="display:inline-block;">开始</button>
+</body>
+<script type="text/javascript">
+    // function sleep(delay) {
+    //     var start = (new Date()).getTime();
+    //     while((new Date()).getTime() - start < delay) {
+    //         continue;
+    //     }
+    // }
+    function sleep(ms, callback) {
+        setTimeout(callback, ms);
+    }
+    function state_switch() {
+        var curText = document.getElementById('play').innerText;
+        if(curText == "开始") {
+            document.getElementById('play').innerText = "开始中...";
+            // 模拟请求过程
+            sleep(1000, ()=>{
+                document.getElementById('play').classList.remove("greenbtn");
+                document.getElementById('play').classList.add("redbtn");
+                document.getElementById('play').innerText = "结束";
+            });
+
+        } else if(curText == "结束") {
+            document.getElementById('play').innerText = "结束中...";
+            // 模拟请求过程
+            sleep(1000, ()=> {
+                document.getElementById('play').classList.remove("redbtn");
+                document.getElementById('play').classList.add("greenbtn");
+                document.getElementById('play').innerText = "开始";
+            });
+        }
+    }
+</script>
+</html>
