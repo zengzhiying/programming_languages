@@ -1,6 +1,7 @@
 package main
 
-// 利用select 信道和定时器建立连续获得一定时间窗口内的数据
+// 手写滚动时间窗口, 控制和逻辑耦合, 代码不好维护
+// 建议封装好time window工具使用
 
 import (
 	"fmt"
@@ -10,7 +11,7 @@ import (
 var msg1 chan int
 var msg2 chan string
 
-func main() {
+func custom() {
 	msg1 = make(chan int, 10000)
 	msg2 = make(chan string, 10000)
 	go consumer()
