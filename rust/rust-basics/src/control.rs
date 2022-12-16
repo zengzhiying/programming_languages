@@ -1,6 +1,18 @@
 use std::vec::Vec;
 use std::time::{Duration, Instant};
 
+pub fn if_else_control() {
+    let n = 67732;
+
+    let b = if is_even(n) {
+        "even"
+    } else {
+        "odd"
+    };
+
+    println!("{} is {}", n , b);
+}
+
 pub fn for_control() {
     // 迭代集合
     let mut vec = Vec::new();
@@ -80,19 +92,6 @@ pub fn break_control() {
             }
         }
     }
-}
-
-
-pub fn if_else_control() {
-    let n = 67732;
-
-    let b = if is_even(n) {
-        "even"
-    } else {
-        "odd"
-    };
-
-    println!("{} is {}", n , b);
 }
 
 pub fn match_control() {
