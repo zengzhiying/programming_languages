@@ -1,3 +1,5 @@
+use std::ops::Add;
+
 pub fn string_basic() {
     // 字符串
     let a = "Hello Rust.";
@@ -18,6 +20,34 @@ pub fn string_basic() {
     // 切分UTF-8字符必须保证单元性
     let s1 = &b[..3];
     println!("s1: {}", s1);
+
+    let s3 = str_to_string(a);
+    println!("s3: {}", s3);
+
+
+    // 字符串相加
+    let sa: String = String::from("hello ");
+    let sb1: String = String::from("ru");
+    let sb2: String = String::from("st");
+    // 字符串后面需要使用切片
+    let sc = sa + &sb1 + &sb2;
+    println!("sc: {}", sc);
+    // 转为可变并且累加
+    let mut sc = sc;
+    sc += "!";
+    println!("sc: {}", sc);
+
+    // 使用 add 方法 一定要用返回值接受所有权
+    let sc = sc.add("!!");
+    println!("sc: {}", sc);
+
+    // 使用 format 格式化字符串
+    let f = format!("{} {}", String::from("hello"), "happy!");
+    println!("format: {}", f);
+}
+
+fn str_to_string(s: &str) -> String {
+    s.to_string()
 }
 
 pub fn text_process() {
