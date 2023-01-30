@@ -31,4 +31,8 @@ pub fn array_type() {
     let slice = &a[1..3];
     let b = [2, 3];
     assert_eq!(slice, &b);
+
+    // 复杂类型填充创建的方法 
+    let string_array: [String; 3] = core::array::from_fn(|_| String::from("good"));
+    println!("{:?}", string_array);
 }

@@ -5,6 +5,8 @@ mod control;
 mod generics_type;
 mod array_slice_type;
 mod structure_type;
+mod enum_type;
+mod option_type;
 
 fn main() {
     println!("Hello, Rust!");
@@ -41,11 +43,21 @@ fn main() {
     // 自定义结构体
     println!("============ Struct type =============");
     structure_type::structure_type();
+
+    // 枚举类型
+    println!("============ Enum type =============");
+    enum_type::enum_type();
+
+    // Option
+    println!("=========== Option type =============");
+    option_type::option_type();
     
 
     // 自定义 trait 实现
     println!("============ trait ============");
     generics_type::generics_add();
+
+
 
 }
 

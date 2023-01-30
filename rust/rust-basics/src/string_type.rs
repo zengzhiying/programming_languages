@@ -29,7 +29,8 @@ pub fn string_basic() {
     let sa: String = String::from("hello ");
     let sb1: String = String::from("ru");
     let sb2: String = String::from("st");
-    // 字符串后面需要使用切片
+    // 字符串后面需要使用切片累加, 底层是调用 add 方法
+    // 注意累加完成 sa 的所有权会转到 sc
     let sc = sa + &sb1 + &sb2;
     println!("sc: {}", sc);
     // 转为可变并且累加
@@ -44,6 +45,26 @@ pub fn string_basic() {
     // 使用 format 格式化字符串
     let f = format!("{} {}", String::from("hello"), "happy!");
     println!("format: {}", f);
+
+    // 原始 ASCII 字符写法
+    let bs = "write: \x52\x76\x6f.";
+    println!("bs: {}", bs);
+    // unicode 字符写法
+    let un = "u: \u{211d}";
+    println!("un: {}", un);
+
+    // UTF-8 字符串遍历
+    let s = "This is: 华夏";
+    // 字符遍历
+    for c in s.chars() {
+        print!("{}", c);
+    }
+    println!();
+    // 字节遍历
+    for b in s.bytes() {
+        print!("{} ", b);
+    }
+    println!();
 }
 
 fn str_to_string(s: &str) -> String {
