@@ -24,4 +24,7 @@ pub fn enum_type() {
 
     let king = PokerSuit::King { big: true };
     println!("{:?}", king);
+    if let PokerSuit::King { big } = king {
+        println!("big: {}", big);
+    }
 }
