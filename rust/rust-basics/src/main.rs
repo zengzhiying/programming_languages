@@ -7,6 +7,7 @@ mod array_slice_type;
 mod structure_type;
 mod enum_type;
 mod option_type;
+mod struct_enum_method;
 
 fn main() {
     println!("Hello, Rust!");
@@ -51,6 +52,11 @@ fn main() {
     // Option
     println!("=========== Option type =============");
     option_type::option_type();
+
+    // struct method
+    println!("=========== struct & enum method ============");
+    struct_enum_method::struct_method();
+    struct_enum_method::enum_method();
     
 
     // 自定义 trait 实现
