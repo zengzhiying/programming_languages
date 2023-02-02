@@ -1,4 +1,3 @@
-use std::fmt::Result;
 use std::ops::Add;
 use std::time::Duration;
 
@@ -45,12 +44,14 @@ fn max<T: std::cmp::PartialOrd + Copy>(l: &[T]) -> T {
 
 // 结构体泛型
 #[derive(Debug)]
+#[allow(dead_code)]
 struct Point<T> {
     x: T, 
     y: T
 }
 
 #[derive(Debug)]
+#[allow(dead_code)]
 struct PointTU<T, U> {
     x: T,
     y: U
