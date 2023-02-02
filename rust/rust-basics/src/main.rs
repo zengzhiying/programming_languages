@@ -62,6 +62,8 @@ fn main() {
     // 自定义 trait 实现
     println!("============ trait ============");
     generics_type::generics_add();
+    generics_type::generics_max();
+    generics_type::struct_generics();
+    generics_type::enum_generics();
 }
-
 
