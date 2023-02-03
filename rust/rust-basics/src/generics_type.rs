@@ -42,12 +42,28 @@ fn max<T: std::cmp::PartialOrd + Copy>(l: &[T]) -> T {
 }
 
 
-// 结构体泛型
+// ================== 结构体泛型 ===================
 #[derive(Debug)]
 #[allow(dead_code)]
 struct Point<T> {
     x: T, 
     y: T
+}
+
+// 方法中使用泛型
+// impl<T> 提前声明, Point<T> 是直接使用结构体的定义, 可以看作一种类型
+impl<T> Point<T> {
+    fn x(&self) -> &T {
+        &self.x
+    }
+}
+
+// 可以专门声明固定类型
+impl Point<f32>  {
+    fn distance(&self) -> f32 {
+        let d = self.x.powi(2) + self.y.powi(2);
+        d.sqrt()
+    }
 }
 
 #[derive(Debug)]
@@ -57,20 +73,31 @@ struct PointTU<T, U> {
     y: U
 }
 
+impl<T, U> PointTU<T, U> {
+    // 方法泛型类型可以和外层声明的类型不一样, 可以单独声明类型
+    fn mixup<V, W>(self, other: PointTU<V, W>) -> PointTU<T, W> {
+        PointTU { x: self.x, y: other.y }
+    }
+}
+
 pub fn struct_generics() {
     // 在同一个结构体实例中  T 必须保持一致
     let p = Point{x: 5, y: 6};
     println!("{:?}", p);
     let p1 = Point{x: 1.2, y: 2.3};
-    println!("{:?}", p1);
+    println!("{:?}, x: {}", p1, p1.x());
+    let p2: Point<f32> = Point { x: 1.1, y: 2.2 };
+    println!("{:?}, distance: {}", p2, p2.distance());
 
     // 此时 T 和 U 既可以相同也可以不同
     let pt = PointTU{x: 3, y: 8.2};
     println!("{:?}", pt);
+    let pt1 = pt.mixup(PointTU{x: 1.2, y: 9.8});
+    println!("{:?}", pt1);
 }
 
 
-// 错误处理常用的枚举写法
+// ================= 枚举泛型: 错误处理常用的枚举写法 ===================
 #[derive(Debug)]
 enum ResultNumber<T, E> {
     Ok(T),
@@ -95,4 +122,19 @@ fn match_result(r: & mut ResultNumber<i32, &str>) {
             println!("error: {}", err);
         }
     }
+}
+
+// ================== const 泛型 =====================
+
+// 数组长度必须是常量, 因此通过 const 泛型可以处理长度问题
+// 这样就不需要必须传入切片了
+fn print_array<T: std::fmt::Debug, const N: usize>(arr: [T; N]) {
+    println!("array: {:?}, size: {}", arr, N);
+}
+
+pub fn const_generics() {
+    let arr1 = [1, 2, 3];
+    print_array(arr1);
+    let arr2 = [1.1, 2.1];
+    print_array(arr2);
 }
