@@ -8,6 +8,7 @@ mod structure_type;
 mod enum_type;
 mod option_type;
 mod struct_enum_method;
+mod trait_example;
 
 fn main() {
     println!("Hello, Rust!");
@@ -66,5 +67,9 @@ fn main() {
     generics_type::struct_generics();
     generics_type::enum_generics();
     generics_type::const_generics();
+
+    // trait 
+    println!("============== trait ================");
+    trait_example::example();
 }
 
