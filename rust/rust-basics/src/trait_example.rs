@@ -1,4 +1,4 @@
-use std::fmt::{Debug, Display};
+use std::{fmt::{Debug, Display}, ops::Add};
 
 
 // 定义 trait(特征)
@@ -71,6 +71,7 @@ fn notify5<T, U>(item1: &T, item2: &U)
 }
 
 // 利用特征约束有条件的实现指定的特征
+#[derive(Debug)]
 struct Pair<T> {
     x: T,
     y: T
@@ -89,6 +90,57 @@ impl<T: Display + PartialOrd> Pair<T> {
             println!("maxinum is: {}", self.x);
         } else {
             println!("maxinum is: {}", self.y);
+        }
+    }
+}
+
+// 函数返回 trait 类型
+// 但是实际的类型只能返回一种, 无法通过分支控制来返回多个类型, 例如: Weixin 和 Weibo
+fn summarizable() -> impl Summary {
+    Weibo {
+        user: String::from("uid2991"),
+        content: String::from("会有突如其来的好运.")
+    }
+}
+
+// 实现加法 trait
+// 最简单的方法可以通过注解实现 Clone+Copy
+// #[derive(Debug, Clone, Copy)]
+#[derive(Debug)]
+struct ThreeDimVector<T: Add<T, Output = T> + Display + Copy> {
+    x: T,
+    y: T,
+    z: T
+}
+
+
+// 实现 Copy
+impl<T: Add<T, Output = T> + Display + Copy> Copy for ThreeDimVector<T> {
+}
+
+// 实现 Copy 必须实现 Clone
+impl<T: Add<T, Output = T> + Display + Copy> Clone for ThreeDimVector<T> {
+    fn clone(&self) -> Self {
+        *self
+    }
+}
+
+// 实现 display  所有的实现声明都要和结构体的类型声明一致, 类型约束可以多不可以少
+impl<T: Add<T, Output = T> + Display + Copy> Display for ThreeDimVector<T> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "({}, {}, {})", self.x, self.y, self.z)
+    }
+}
+
+// 实现 add
+impl<T: Add<T, Output = T> + Display + Copy> Add for ThreeDimVector<T> {
+    type Output = ThreeDimVector<T>;
+
+    fn add(self, v: Self) -> Self::Output {
+        ThreeDimVector {
+            x: self.x + v.x,
+            y: self.y + v.y,
+            z: self.z + v.z
         }
     }
 }
@@ -116,4 +168,14 @@ pub fn example() {
 
     let p = Pair::new(3, 8);
     p.cmp_display();
+
+    let wb = summarizable();
+    println!("return impl: {}", wb.post());
+
+    let v1 = ThreeDimVector{x: 3, y: 6, z: 1};
+    let v2 = ThreeDimVector{x: 2, y: 3, z: 0};
+    let v3 = v1 + v2;
+    println!("v3: {}", v3);
+    // 实现 copy 后所有权不会移动
+    println!("v1: {}, v2: {}", v1, v2);
 }
