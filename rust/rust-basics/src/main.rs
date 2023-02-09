@@ -9,6 +9,7 @@ mod enum_type;
 mod option_type;
 mod struct_enum_method;
 mod trait_example;
+mod trait_object;
 
 fn main() {
     println!("Hello, Rust!");
@@ -71,5 +72,9 @@ fn main() {
     // trait 
     println!("============== trait ================");
     trait_example::example();
+
+    // trait object
+    println!("============== trait object =================");
+    trait_object::trait_object();
 }
 
