@@ -145,6 +145,88 @@ impl<T: Add<T, Output = T> + Display + Copy> Add for ThreeDimVector<T> {
     }
 }
 
+// =========== 同一个对象不同特征的同名方法 ===========
+trait Pilot {
+    fn fly(&self);
+}
+trait Wizard {
+    fn fly(&self);
+}
+struct Human;
+
+impl Pilot for Human {
+    fn fly(&self) {
+        println!("pilot method.");
+    }
+}
+
+impl Wizard for Human {
+    fn fly(&self) {
+        println!("wizard method.");
+    }
+}
+
+impl Human {
+    fn fly(&self) {
+        println!("human method.");
+    }
+}
+
+fn pilot_method(p: &impl Pilot) {
+    p.fly();
+}
+fn wizard_method(p: &impl Wizard) {
+    p.fly();
+}
+
+// 无 self 参数的同名方法
+trait Animal {
+    fn baby_name() -> String;
+}
+
+struct Dog;
+impl Dog {
+    fn baby_name() -> String {
+        String::from("Spot")
+    }
+}
+
+impl Animal for Dog {
+    fn baby_name() -> String {
+        String::from("puppy")
+    }
+}
+
+
+// ========== 特征定义时的特征约束 =============
+trait OutlinePrint: Display {
+    fn print(&self);
+}
+
+struct PointPrint {
+    x: i32,
+    y: i32
+}
+
+impl Display for PointPrint {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "({}, {})", self.x, self.y)
+    }
+}
+
+// 必须先实现 Display trait
+impl OutlinePrint for PointPrint {
+    fn print(&self) {
+        let output = self.to_string();
+        let len = output.len();
+        println!("{}", "*".repeat(len + 4));
+        println!("*{}*", " ".repeat(len + 2));
+        println!("* {} *", output);
+        println!("*{}*", " ".repeat(len + 2));
+        println!("{}", "*".repeat(len + 4));
+    }
+}
+
 pub fn example() {
     let weibo = Weibo{user: String::from("u1800"), content: String::from("昨天烟花不错.")};
     let weixin = Weixin{src: String::from("wxid01"), dest: String::from("wxid02"), message: String::from("我是马化腾")};
@@ -178,4 +260,25 @@ pub fn example() {
     println!("v3: {}", v3);
     // 实现 copy 后所有权不会移动
     println!("v1: {}, v2: {}", v1, v2);
+
+
+    // 同名方法
+    let person = Human;
+    // 结构体方法
+    person.fly();
+    // 特征同名方法
+    pilot_method(&person);
+    wizard_method(&person);
+    // 或者不用包装函数
+    Pilot::fly(&person);
+    Wizard::fly(&person);
+
+    // 无 self 参数的同名方法
+    println!("dog: {}", Dog::baby_name());
+    // Animal 特征的方法 需要完全限定实例参数
+    // <Type as Trait>::function(...)
+    println!("animal: {}", <Dog as Animal>::baby_name());
+
+    let pp = PointPrint{x: 9, y: 3};
+    pp.print();
 }
