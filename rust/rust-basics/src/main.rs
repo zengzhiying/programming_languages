@@ -10,6 +10,7 @@ mod option_type;
 mod struct_enum_method;
 mod trait_example;
 mod trait_object;
+mod vector_type;
 
 fn main() {
     println!("Hello, Rust!");
@@ -76,5 +77,9 @@ fn main() {
     // trait object
     println!("============== trait object =================");
     trait_object::trait_object();
+
+    // Vector type
+    println!("================ vector type =================");
+    vector_type::vector_type_example();
 }
 

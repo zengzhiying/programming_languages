@@ -227,6 +227,15 @@ impl OutlinePrint for PointPrint {
     }
 }
 
+// 可以使用 Wrapper 元组 newtype 模式绕过孤儿规则, 从而为内部类型实现内部特征
+struct Wrapper(Vec<String>);
+
+impl Display for Wrapper {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.0.join(", "))
+    }
+}
+
 pub fn example() {
     let weibo = Weibo{user: String::from("u1800"), content: String::from("昨天烟花不错.")};
     let weixin = Weixin{src: String::from("wxid01"), dest: String::from("wxid02"), message: String::from("我是马化腾")};
@@ -281,4 +290,9 @@ pub fn example() {
 
     let pp = PointPrint{x: 9, y: 3};
     pp.print();
+
+
+    // newtype 模式
+    let w = Wrapper(vec![String::from("Hello"), String::from("Rust!")]);
+    println!("{}", w);
 }
