@@ -11,6 +11,7 @@ mod struct_enum_method;
 mod trait_example;
 mod trait_object;
 mod vector_type;
+mod hashmap_type;
 
 fn main() {
     println!("Hello, Rust!");
@@ -81,5 +82,9 @@ fn main() {
     // Vector type
     println!("================ vector type =================");
     vector_type::vector_type_example();
+
+    // HashMap type
+    println!("================ hash map type ==================");
+    hashmap_type::hashmap_example();
 }
 
