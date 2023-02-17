@@ -12,6 +12,7 @@ mod trait_example;
 mod trait_object;
 mod vector_type;
 mod hashmap_type;
+mod type_conversion;
 
 fn main() {
     println!("Hello, Rust!");
@@ -86,5 +87,9 @@ fn main() {
     // HashMap type
     println!("================ hash map type ==================");
     hashmap_type::hashmap_example();
+
+    // type conversion
+    println!("================ type conversion =================");
+    type_conversion::type_conversion_example();
 }
 
