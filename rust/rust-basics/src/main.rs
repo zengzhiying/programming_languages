@@ -13,6 +13,7 @@ mod trait_object;
 mod vector_type;
 mod hashmap_type;
 mod type_conversion;
+mod result_panic;
 
 fn main() {
     println!("Hello, Rust!");
@@ -91,5 +92,9 @@ fn main() {
     // type conversion
     println!("================ type conversion =================");
     type_conversion::type_conversion_example();
+
+    // result panic
+    println!("=============== result panic ===================");
+    result_panic::result_panic_example();
 }
 
