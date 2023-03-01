@@ -14,6 +14,7 @@ mod vector_type;
 mod hashmap_type;
 mod type_conversion;
 mod result_panic;
+mod object_lifetime;
 
 fn main() {
     println!("Hello, Rust!");
@@ -96,5 +97,9 @@ fn main() {
     // result panic
     println!("=============== result panic ===================");
     result_panic::result_panic_example();
+
+    // lifetime
+    println!("=============== life time =======================");
+    object_lifetime::lifetime_example();
 }
 
