@@ -3,6 +3,16 @@ struct Partition<'a> {
     part: &'a str
 }
 
+// 实现方法 注意此时生命周期已经成为方法的一部分
+impl<'a, 'b> Partition<'a> {
+    // 这种情况下不需要标注生命周期
+    // 编译器会自动消除
+    fn get_part(&'a self, _: &'b str) -> &'b str
+    where 'a: 'b {
+        self.part
+    }
+}
+
 
 pub fn lifetime_example() {
     let x = "hello";
@@ -32,6 +42,7 @@ pub fn lifetime_example() {
         partition.part = h;
     }
     println!("partition: {}", partition.part);
+    println!("partition get_part: {}", partition.get_part(""));
 
     // let partition;
     // {
