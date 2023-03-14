@@ -15,6 +15,7 @@ mod hashmap_type;
 mod type_conversion;
 mod result_panic;
 mod object_lifetime;
+mod print_example;
 
 fn main() {
     println!("Hello, Rust!");
@@ -101,5 +102,9 @@ fn main() {
     // lifetime
     println!("=============== life time =======================");
     object_lifetime::lifetime_example();
+
+    // print
+    println!("==================== print =======================");
+    print_example::print_example();
 }
 
