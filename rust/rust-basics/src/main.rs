@@ -16,6 +16,7 @@ mod type_conversion;
 mod result_panic;
 mod object_lifetime;
 mod print_example;
+mod box_example;
 
 fn main() {
     println!("Hello, Rust!");
@@ -106,5 +107,9 @@ fn main() {
     // print
     println!("==================== print =======================");
     print_example::print_example();
+
+    // box 智能指针
+    println!("==================== Box ===========================");
+    box_example::box_example();
 }
 
