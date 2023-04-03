@@ -1,4 +1,42 @@
 
+// 动态大小类型 会报错
+// enum List {
+//     Node(i32, List),
+//     Nil,
+// }
+
+// 使用 Box 包装即可表示固定大小的类型，实现循环引用
+enum List {
+    Node(i32, Box<List>),
+    Nil,
+}
+
+// 如果将多个不同的对象实例放到同一个数组中, 可以通过同一个 trait + Box<dyn > 来实现
+
+trait Draw {
+    fn draw(&self);
+}
+
+struct Button {
+    id: u32
+}
+
+struct Select {
+    id: u32
+}
+
+// Button 和 Select 结构体都实现 Draw trait
+impl Draw for Button {
+    fn draw(&self) {
+        println!("button: {}", self.id);
+    }
+}
+
+impl Draw for Select {
+    fn draw(&self) {
+        println!("select: {}", self.id);
+    }
+}
 
 pub fn box_example() {
     // a 存储在栈上
@@ -23,4 +61,26 @@ pub fn box_example() {
     // arr 不在拥有所有权，因此无法再使用了
     // println!("arr len: {}", arr.len());
     println!("arr1 len: {}", arr1.len());
+
+    let l = List::Node(32, Box::new(List::Node(64, Box::new(List::Nil))));
+    list_iter(l);
+
+    let elements: Vec<Box<dyn Draw>> = vec![Box::new(Button{id: 1}), Box::new(Select{id: 2})];
+    for e in elements {
+        // 调用方法时可自动解引用
+        e.draw();
+    }
+    
+}
+
+fn list_iter(l: List) {
+    match l {
+        List::Node(i, v) => {
+            println!("i: {}", i);
+            list_iter(*v);
+        },
+        List::Nil => {
+            println!("List Nil.")
+        }
+    }
 }
