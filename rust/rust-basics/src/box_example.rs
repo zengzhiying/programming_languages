@@ -65,11 +65,21 @@ pub fn box_example() {
     let l = List::Node(32, Box::new(List::Node(64, Box::new(List::Nil))));
     list_iter(l);
 
+
+    // 包装不同类型到同一个 Vec 中
     let elements: Vec<Box<dyn Draw>> = vec![Box::new(Button{id: 1}), Box::new(Select{id: 2})];
     for e in elements {
         // 调用方法时可自动解引用
         e.draw();
     }
+
+    let arr = vec![Box::new(1), Box::new(2)];
+    // 需要用只读引用获取 否则会因为没有实现 Copy 而报所有权错误
+    let (first, second) = (&arr[0], &arr[1]);
+    // 取值需要用 ** 第一次是解 Box 引用，第二次是取 Box 值
+    let sum_val = **first + **second;
+    // 打印时会自动解出来值
+    println!("{} + {} = {}", first, second, sum_val);
     
 }
 
