@@ -43,6 +43,7 @@ pub fn box_example() {
     let a = 3;
     // 使用 Box 将数字存储到堆上 当超过生命周期后会自动 Drop 掉
     // 因为 Box<T> 实现了 Drop trait
+    // Box 底层基于 jemalloc 来管理内存
     let a = Box::new(a);
     println!("a = {}", a);
     // 但是无法直接运算 不能自动 Deref 解引用
@@ -80,7 +81,12 @@ pub fn box_example() {
     let sum_val = **first + **second;
     // 打印时会自动解出来值
     println!("{} + {} = {}", first, second, sum_val);
-    
+
+    // Box::leak 将 Box 中的值转为 'static 的生命周期
+    // 不仅是字符串，结构体等类型都可以
+    // Box::leak 的性能也是最高的
+    let s = leak_static_str();
+    println!("leaked str: {}", s);
 }
 
 fn list_iter(l: List) {
@@ -93,4 +99,13 @@ fn list_iter(l: List) {
             println!("List Nil.")
         }
     }
+}
+
+fn leak_static_str() -> &'static str {
+    let mut s = String::new();
+    s.push_str("static string.");
+    // 直接返回局部 &str 类型会因为生命周期而报错
+    // s.as_str()
+    // 通过 Box::leak 从 Box 中将目标值转为静态的
+    Box::leak(s.into_boxed_str())
 }
