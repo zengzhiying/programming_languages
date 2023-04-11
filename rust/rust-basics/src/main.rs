@@ -17,6 +17,7 @@ mod result_panic;
 mod object_lifetime;
 mod print_example;
 mod box_example;
+mod deref_example;
 
 fn main() {
     println!("Hello, Rust!");
@@ -111,5 +112,9 @@ fn main() {
     // box 智能指针
     println!("==================== Box ===========================");
     box_example::box_example();
+
+    // deref 自动解引用
+    println!("==================== Deref ============================");
+    deref_example::deref_example();
 }
 
