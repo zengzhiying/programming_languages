@@ -18,6 +18,7 @@ mod object_lifetime;
 mod print_example;
 mod box_example;
 mod deref_example;
+mod drop_example;
 
 fn main() {
     println!("Hello, Rust!");
@@ -116,5 +117,9 @@ fn main() {
     // deref 自动解引用
     println!("==================== Deref ============================");
     deref_example::deref_example();
+
+    // drop 资源回收
+    println!("===================== Drop ============================");
+    drop_example::drop_example();
 }
 
