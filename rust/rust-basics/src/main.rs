@@ -19,6 +19,7 @@ mod print_example;
 mod box_example;
 mod deref_example;
 mod drop_example;
+mod rc_example;
 
 fn main() {
     println!("Hello, Rust!");
@@ -121,5 +122,9 @@ fn main() {
     // drop 资源回收
     println!("===================== Drop ============================");
     drop_example::drop_example();
+
+    // RC & ARC 引用计数指针与多线程共享的引用计数指针
+    println!("====================== Rc & Arc ========================");
+    rc_example::rc_example();
 }
 
