@@ -126,5 +126,6 @@ fn main() {
     // RC & ARC 引用计数指针与多线程共享的引用计数指针
     println!("====================== Rc & Arc ========================");
     rc_example::rc_example();
+    rc_example::arc_example();
 }
 

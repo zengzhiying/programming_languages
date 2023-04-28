@@ -1,4 +1,4 @@
-use std::rc::Rc;
+use std::{rc::Rc, sync::Arc, thread::{self, JoinHandle}};
 
 
 pub fn rc_example() {
@@ -36,6 +36,35 @@ pub fn rc_example() {
     // 自动释放后降为 2，因为 Rc<T> 实现了 Drop trait，所以释放变量 c 的同时引用计数也会减少
     println!("rc num: {}", Rc::strong_count(&a));
 
+    drop(b);
+    // 引用计数 -1
+    println!("rc num: {}", Rc::strong_count(&a));
+
     // 当 a, b 超出作用域后，引用计数会归零，但是这个无法在程序中看到
 
+}
+
+pub fn arc_example() {
+    // 多线程引用计数智能指针 Arc，可以在多个线程间安全地共享数据
+    // 注意 Arc 也是只读的，独立使用无法修改，如果要修改变量需要配合 Cell/RelCell 来实现
+    let s = Arc::new(String::from("Multithreading"));
+    let mut vec: Vec<JoinHandle<()>> = Vec::new();
+    for _ in 0..8 {
+        let v = Arc::clone(&s);
+        // 使用 move 关键字将所有权转移到闭包内
+        let handle = thread::spawn(move || {
+            println!("v: {}", v);
+        });
+        vec.push(handle);
+    }
+    // 这里的数字是不确定的, 取决于多少线程还没有执行完
+    println!("arc num: {}", Arc::strong_count(&s));
+    for _ in 0..8 {
+        let handle = vec.pop().unwrap();
+        let res = handle.join();
+        match res {
+            Ok(_) => {println!("Thread OK!")},
+            Err(e) => {println!("err: {:?}", e);},
+        }
+    }
 }
