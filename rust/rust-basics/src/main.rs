@@ -20,6 +20,7 @@ mod box_example;
 mod deref_example;
 mod drop_example;
 mod rc_example;
+mod cell_example;
 
 fn main() {
     println!("Hello, Rust!");
@@ -127,5 +128,9 @@ fn main() {
     println!("====================== Rc & Arc ========================");
     rc_example::rc_example();
     rc_example::arc_example();
+
+    // Cell & RefCell 在不可变引用基础上修改其可变性
+    println!("====================== Cell & RefCell ===================");
+    cell_example::cell_example();
 }
 
