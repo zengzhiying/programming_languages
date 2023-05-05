@@ -132,5 +132,6 @@ fn main() {
     // Cell & RefCell 在不可变引用基础上修改其可变性
     println!("====================== Cell & RefCell ===================");
     cell_example::cell_example();
+    cell_example::refcell_example();
 }
 
