@@ -21,6 +21,7 @@ mod deref_example;
 mod drop_example;
 mod rc_example;
 mod cell_example;
+mod weak_example;
 
 fn main() {
     println!("Hello, Rust!");
@@ -133,5 +134,9 @@ fn main() {
     println!("====================== Cell & RefCell ===================");
     cell_example::cell_example();
     cell_example::refcell_example();
+
+    // Weak 解决循环引用问题
+    println!("====================== Weak =============================");
+    weak_example::weak_example();
 }
 
