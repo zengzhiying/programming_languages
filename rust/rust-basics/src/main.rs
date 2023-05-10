@@ -22,6 +22,7 @@ mod drop_example;
 mod rc_example;
 mod cell_example;
 mod weak_example;
+mod self_referential;
 
 fn main() {
     println!("Hello, Rust!");
@@ -138,5 +139,9 @@ fn main() {
     // Weak 解决循环引用问题
     println!("====================== Weak =============================");
     weak_example::weak_example();
+
+    // 结构体子引用实现
+    println!("=============== Struct self referential =================");
+    self_referential::unsafe_example();
 }
 
