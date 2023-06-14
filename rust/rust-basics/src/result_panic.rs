@@ -1,9 +1,10 @@
-use std::{fs::{File, self}, io::{ErrorKind, Write, BufReader, BufRead, Read, self}};
+use std::{fs::{File, self}, io::{ErrorKind, Write, BufReader, BufRead, Read, self}, path::Path};
 
 
 pub fn result_panic_example() {
     // 打开文件 返回 Result 类型
     let f = File::open("rs.txt");
+    let mut is_create = false;
     // 错误处理
     let f = match f {
         Ok(f) => f,
@@ -16,6 +17,7 @@ pub fn result_panic_example() {
                         Ok(size) => println!("write size: {}", size),
                         Err(err) => panic!("write err: {:?}", err)
                     }
+                    is_create = true;
                     // 如果文件不存在直接 panic 否则就返回文件句柄
                     File::open("rs.txt").unwrap()
                 },
@@ -34,11 +36,31 @@ pub fn result_panic_example() {
         }
     }
 
-    // expect 可以收集更详细的信息
+    // 自动创建文件后自动删除
+    if is_create {
+        let r = fs::remove_file("rs.txt");
+        match r {
+            Ok(_) => println!("rs.txt removed."),
+            Err(e) => println!("rs.txt remove err: {}", e)
+        }
+    }
+
+    // expect 可以收集更详细的信息，文件不存在会自动 panic
+    is_create = false;
+    let path = Path::new("hello.txt");
+    if !path.exists() {
+        let mut f = File::create(path).unwrap();
+        f.write(&vec![88, 89, 90]).unwrap();
+        is_create = true;
+    }
     let mut f = File::open("hello.txt").expect("Failed to open hello.txt");
     let mut buf = String::new();
     f.read_to_string(&mut buf).unwrap();
     println!("read buf: {:?}", buf);
+
+    if is_create {
+        fs::remove_file(path).unwrap();
+    }
 
     let user = read_user_from_file("user");
     match user {
