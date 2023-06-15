@@ -23,6 +23,7 @@ mod rc_example;
 mod cell_example;
 mod weak_example;
 mod self_referential;
+mod pin_example;
 
 fn main() {
     println!("Hello, Rust!");
@@ -143,5 +144,9 @@ fn main() {
     // 结构体子引用实现
     println!("=============== Struct self referential =================");
     self_referential::unsafe_example();
+
+    // Pin 在内存中固定值，防止被移动
+    println!("==================== Pin ======================");
+    pin_example::pin_example();
 }
 
