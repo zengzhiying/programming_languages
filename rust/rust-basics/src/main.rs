@@ -24,6 +24,9 @@ mod cell_example;
 mod weak_example;
 mod self_referential;
 mod pin_example;
+mod concurrency;
+
+use concurrency::multithreading;
 
 fn main() {
     println!("Hello, Rust!");
@@ -148,5 +151,10 @@ fn main() {
     // Pin 在内存中固定值，防止被移动
     println!("==================== Pin ======================");
     pin_example::pin_example();
+
+    // 多线程
+    println!("=================== Multithreading ==================");
+    multithreading::thread_example();
+    
 }
 
