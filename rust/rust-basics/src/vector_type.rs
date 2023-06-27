@@ -50,7 +50,7 @@ pub fn vector_type_example() {
         None => println!("v2[2] not exists.")
     }
 
-    // 元素借用 不能在修改 vector 的同时存在可变引用
+    // 元素借用 不能在修改 vector 的同时存在不可变引用
     let mut v = vec![1, 2, 3];
     // let one = &v[0];
     v.push(6);
