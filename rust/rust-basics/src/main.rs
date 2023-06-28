@@ -155,4 +155,12 @@ fn main() {
     // 多线程
     println!("=================== Multithreading ==================");
     multithreading::thread_example();
+
+    // 线程屏障 Barrier
+    println!("=================== Threading barrier ====================");
+    multithreading::thread_barrier_example();
+
+    // 线程局部变量
+    println!("=================== Threading local variable =================");
+    multithreading::threading_local_variable();
 }

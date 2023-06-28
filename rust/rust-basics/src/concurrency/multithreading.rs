@@ -1,4 +1,4 @@
-use std::{thread, time::Duration};
+use std::{thread::{self, LocalKey}, time::Duration, sync::{Arc, Barrier}, cell::RefCell};
 
 pub fn thread_example() {
     // 创建 1 个线程
@@ -45,4 +45,84 @@ pub fn thread_example() {
 
     // 这个时候子线程仍然会继续打印直到主线程结束
     thread::sleep(Duration::from_millis(100));
+}
+
+pub fn thread_barrier_example() {
+    let mut handlers = Vec::with_capacity(6);
+    // 使用引用计数设置屏障个数
+    let barrier = Arc::new(Barrier::new(6));
+
+    for _ in 0..6 {
+        let b = barrier.clone();
+        handlers.push(thread::spawn(move || {
+            println!("thread start.");
+            // 插入屏障可以使得所有线程都执行到 wait 后再执行后面的代码
+            b.wait();
+            println!("thread end.");
+        }));
+    }
+
+    for handler in handlers {
+        handler.join().unwrap();
+    }
+}
+
+// 线程局部变量也可以放在结构体中
+struct LocalVar;
+impl LocalVar {
+    thread_local! {
+        static VALUE: RefCell<u32> = RefCell::new(1);
+    }
+}
+
+// 其他结构体中也可以引用
+struct LocalVarRef {
+    value: &'static LocalKey<RefCell<u32>>
+}
+impl LocalVarRef {
+    fn new() -> Self {
+        Self { value: &LocalVar::VALUE }
+    }
+}
+
+pub fn threading_local_variable() {
+    // 初始化线程局部变量 生命周期为 'static
+    thread_local! {static VALUE: RefCell<u32> = RefCell::new(1)};
+    // 通过 with 来获取变量值或进行赋值
+    VALUE.with(|f| {
+        assert_eq!(*f.borrow(), 1);
+        *f.borrow_mut() = 2;
+    });
+
+    // 每个线程开始时都会拿到设置的初始值 1
+    // 多个线程的设置都是局部生效，相互之间不影响
+    // 上面的 with 相当于主线程使用局部变量
+    let t = thread::spawn(|| {
+        VALUE.with(|f| {
+            assert_eq!(*f.borrow(), 1);
+            *f.borrow_mut() = 3;
+        });
+    });
+
+    t.join().unwrap();
+
+    // 外部再次使用时，拿到的仍然是刚才设置的局部值 2
+    // 多个线程的局部变量结果是无法汇总的
+    VALUE.with(|f| {
+        assert_eq!(*f.borrow(), 2);
+    });
+
+    // 也可以使用结构体实现的线程局部变量
+    LocalVar::VALUE.with(|f| {
+        println!("{:?}", f);
+        *f.borrow_mut() += 1;
+    });
+
+    let r = LocalVarRef::new();
+    r.value.with(|x| {
+        // 因为都是在 1 个线程中因此值为 2
+        println!("{:?}", x);
+    });
+
+    println!("YES");
 }
