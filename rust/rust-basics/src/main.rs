@@ -27,6 +27,7 @@ mod pin_example;
 mod concurrency;
 
 use concurrency::multithreading;
+use concurrency::thread_local_example;
 
 fn main() {
     println!("Hello, Rust!");
@@ -162,5 +163,9 @@ fn main() {
 
     // 线程局部变量
     println!("=================== Threading local variable =================");
-    multithreading::threading_local_variable();
+    thread_local_example::threading_local_variable();
+
+    // 第三方 thread_local 库
+    println!("=================== Three-party thread_local ======================");
+    thread_local_example::thread_local_three_party_example();
 }
