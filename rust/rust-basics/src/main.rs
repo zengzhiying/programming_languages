@@ -28,6 +28,8 @@ mod concurrency;
 
 use concurrency::multithreading;
 use concurrency::thread_local_example;
+use concurrency::condition_variables;
+use concurrency::initialize_only_once;
 
 fn main() {
     println!("Hello, Rust!");
@@ -168,4 +170,12 @@ fn main() {
     // 第三方 thread_local 库
     println!("=================== Three-party thread_local ======================");
     thread_local_example::thread_local_three_party_example();
+
+    // 条件变量
+    println!("================= Condition variables ======================");
+    condition_variables::condition_variables_example();
+
+    // 初始化一次
+    println!("================= Initialize once ===================");
+    initialize_only_once::initialize_only_once_example();
 }
