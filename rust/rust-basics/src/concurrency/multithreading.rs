@@ -34,7 +34,8 @@ pub fn thread_example() {
     let t = thread::spawn(|| {
         // 继续创建线程
         thread::spawn(|| {
-            loop {
+            // 为了不影响后面的函数运行将 loop 换成了 for
+            for _ in 0..10 {
                 println!("sub thread.");
                 thread::sleep(Duration::from_millis(10));
             }
@@ -43,7 +44,7 @@ pub fn thread_example() {
     t.join().unwrap();
     println!("parent thread is finished.");
 
-    // 这个时候子线程仍然会继续打印直到主线程结束
+    // 这个时候子线程仍然会继续打印直到主线程结束 而不是当前函数结束
     thread::sleep(Duration::from_millis(100));
 }
 

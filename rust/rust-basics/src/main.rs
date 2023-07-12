@@ -30,6 +30,7 @@ use concurrency::multithreading;
 use concurrency::thread_local_example;
 use concurrency::condition_variables;
 use concurrency::initialize_only_once;
+use concurrency::channel_example;
 
 fn main() {
     println!("Hello, Rust!");
@@ -178,4 +179,8 @@ fn main() {
     // 初始化一次
     println!("================= Initialize once ===================");
     initialize_only_once::initialize_only_once_example();
+
+    // 多线程通信 channel 多生产者单消费者
+    println!("================= Channel mpsc =======================");
+    channel_example::mpsc_example();
 }
