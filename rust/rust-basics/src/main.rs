@@ -32,6 +32,7 @@ use concurrency::condition_variables;
 use concurrency::initialize_only_once;
 use concurrency::channel_example;
 use concurrency::flume_example;
+use concurrency::mutex_example;
 
 fn main() {
     println!("Hello, Rust!");
@@ -188,4 +189,8 @@ fn main() {
     // 多线程通信 flume 库，多生产者多消费者
     println!("====================== flume mpmc ==========================");
     flume_example::flume_example();
+
+    // 互斥锁使用
+    println!("======================= Mutex ==========================");
+    mutex_example::mutex_example();
 }
