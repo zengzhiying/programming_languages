@@ -1,4 +1,4 @@
-use std::{sync::{Mutex, Arc}, thread};
+use std::{sync::{Mutex, Arc, RwLock}, thread};
 
 pub fn mutex_example() {
     // 数据放到互斥锁内，表示使用互斥锁管理
@@ -59,4 +59,25 @@ pub fn mutex_example() {
 
     println!("counter: {:?}", counter);
     
+}
+
+pub fn rw_mutex_example() {
+    // 读写锁允许多个并发读，只允许 1 个写
+    let rw_lock = RwLock::new(5);
+
+    {
+        // 只允许 1 个写
+        let mut w = rw_lock.write().unwrap();
+        *w += 1;
+        assert_eq!(*w, 6);
+        // 这时候如果使用读锁会直接 panic，写的时候不允许加读锁
+    }
+    // 锁超出生命周期被释放
+    {
+        // 允许多个读
+        let r1 = rw_lock.read().unwrap();
+        let r2 = rw_lock.read().unwrap();
+        assert_eq!(*r1, 6);
+        assert_eq!(*r2, 6);
+    }
 }

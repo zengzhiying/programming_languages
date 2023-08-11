@@ -193,4 +193,8 @@ fn main() {
     // 互斥锁使用
     println!("======================= Mutex ==========================");
     mutex_example::mutex_example();
+
+    // 读写锁使用
+    println!("======================= RwLock ========================");
+    mutex_example::rw_mutex_example();
 }
