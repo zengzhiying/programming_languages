@@ -33,6 +33,7 @@ use concurrency::initialize_only_once;
 use concurrency::channel_example;
 use concurrency::flume_example;
 use concurrency::mutex_example;
+use concurrency::semaphore_example;
 
 fn main() {
     println!("Hello, Rust!");
@@ -197,4 +198,8 @@ fn main() {
     // 读写锁使用
     println!("======================= RwLock ========================");
     mutex_example::rw_mutex_example();
+
+    // 信号量使用
+    println!("======================= Semaphore =======================");
+    semaphore_example::tokio_semaphore_example();
 }
