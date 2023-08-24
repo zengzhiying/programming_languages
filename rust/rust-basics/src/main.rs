@@ -34,6 +34,7 @@ use concurrency::channel_example;
 use concurrency::flume_example;
 use concurrency::mutex_example;
 use concurrency::semaphore_example;
+use concurrency::atomic_example;
 
 fn main() {
     println!("Hello, Rust!");
@@ -202,4 +203,8 @@ fn main() {
     // 信号量使用
     println!("======================= Semaphore =======================");
     semaphore_example::tokio_semaphore_example();
+
+    // 原子操作
+    println!("======================= Atomic =========================");
+    atomic_example::atomic_example();
 }
