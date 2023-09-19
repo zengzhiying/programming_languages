@@ -35,6 +35,7 @@ use concurrency::flume_example;
 use concurrency::mutex_example;
 use concurrency::semaphore_example;
 use concurrency::atomic_example;
+use concurrency::memory_barrier;
 
 fn main() {
     println!("Hello, Rust!");
@@ -207,4 +208,8 @@ fn main() {
     // 原子操作
     println!("======================= Atomic =========================");
     atomic_example::atomic_example();
+
+    // 内存屏障
+    println!("======================= Memory Barrier =======================");
+    memory_barrier::memory_barrier_example();
 }
