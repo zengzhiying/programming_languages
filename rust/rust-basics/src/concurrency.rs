@@ -8,3 +8,4 @@ pub mod mutex_example;
 pub mod semaphore_example;
 pub mod atomic_example;
 pub mod memory_barrier;
+pub mod send_sync;

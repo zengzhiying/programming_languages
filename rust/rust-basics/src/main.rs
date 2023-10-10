@@ -36,6 +36,7 @@ use concurrency::mutex_example;
 use concurrency::semaphore_example;
 use concurrency::atomic_example;
 use concurrency::memory_barrier;
+use concurrency::send_sync;
 
 fn main() {
     println!("Hello, Rust!");
@@ -212,4 +213,8 @@ fn main() {
     // 内存屏障
     println!("======================= Memory Barrier =======================");
     memory_barrier::memory_barrier_example();
+
+    // Send & Sync
+    println!("====================== Send & Sync ======================");
+    send_sync::send_sync_example();
 }
