@@ -10,17 +10,7 @@ enum Direction {
 }
 
 pub fn if_else_control() {
-    let n = 67732;
-
-    // if 语句块同时也是表达式 可以返回值
-    let b = if is_even(n) {
-        "even"
-    } else {
-        "odd"
-    };
-
-    println!("{} is {}", n , b);
-
+    // if else 多个组合使用，条件中必须使用布尔值
     let n = 6;
     if n % 4 == 0 {
         println!("number {} is divisible by 4", n);
@@ -31,13 +21,31 @@ pub fn if_else_control() {
     } else {
         println!("number {} is not divisible by 4, 3, or 2", n);
     }
+
+    let n = 67732;
+
+    // if 语句块同时也可以作为表达式，可以返回值
+    let b = if is_even(n) {
+        "even"
+    } else {
+        "odd"
+    };
+
+    println!("{} is {}", n , b);
 }
 
 pub fn for_control() {
-    // 迭代集合
+    // 使用 for 迭代集合
+    // 用 while 很容易出现越界，因为运行时的越界检查会导致 panic，所以程序会变慢
+    // 使用 for 则不会
     let mut vec = Vec::new();
     // 从 1 循环至 10 包括 10
     for i in 1..=10 {
+        print!("{} ", i);
+    }
+    println!();
+    // 反转循环
+    for i in (1..=10).rev() {
         print!("{} ", i);
     }
     println!();
