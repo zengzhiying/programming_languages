@@ -3,7 +3,7 @@ mod string_type;
 mod complex_type;
 mod control;
 mod generics_type;
-mod array_slice_type;
+mod slice_type;
 mod structure_type;
 mod enum_type;
 mod option_type;
@@ -45,16 +45,7 @@ fn main() {
     println!("========== Basic type =============");
     basic_type::data_type_basic();
 
-    // 字符串类型
-    println!("============ String type ====================");
-    string_type::string_basic();
-    string_type::text_process();
-
-    // 复数使用
-    println!("========== Complex type =================");
-    complex_type::complex_type();
-
-    // 分支和循环语法
+    // 控制流
     println!("========= Control if-else ============");
     control::if_else_control();
     println!("========= Control match ===========");
@@ -66,9 +57,18 @@ fn main() {
     println!("========== Control for-break =========");
     control::break_control();
 
-    // 数组和切片
-    println!("========== Array & Slice type ===========");
-    array_slice_type::array_type();
+    // 切片类型
+    println!("============= Slice type ===========");
+    slice_type::slice_type();
+
+    // 字符串类型
+    println!("============ String type ====================");
+    string_type::string_basic();
+    string_type::text_process();
+
+    // 复数使用
+    println!("========== Complex type =================");
+    complex_type::complex_type();
 
     // 自定义结构体
     println!("============ Struct type =============");

@@ -180,6 +180,30 @@ pub fn data_type_basic() {
     let numbers = [3; 5];
     println!("numbers: {:?}", numbers);
 
+    // 二维数组写法，下面的二维数组在编译时会直接影响前面的类型推断
+    let a = [1,2,3];
+    let b: [u8; 3] = [1,2,3];
+    let c = [0; 3];
+    let d: [u8; 3] = [0; 3];
+    // 其中每个数组类型必须一致
+    let arrs = [a, b, c, d];
+
+    // 数组迭代
+    for arr in arrs {
+        print!("{:?}: ", arr);
+        for n in arr.iter() {
+            print!("\t {}", n);
+        }
+
+        let mut sum = 0;
+        for i in 0..arr.len() {
+            sum += arr[i];
+        }
+
+        println!("\t ∑{:?} = {}", arr, sum);
+    }
+
+
     // 数字比较示例
     // 同类型的数字可以直接比较
     let e1: i32 = 761;

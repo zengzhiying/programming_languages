@@ -1,28 +1,20 @@
 use std::ops::Add;
 
 pub fn string_basic() {
-    // 字符串
+    // 字符串字面量值
     let a = "Hello Rust.";
     let b = "你好, Rust.";
 
-    // 数组
+    // 字符串数组数组
     let ss = [a, b];
 
     for s in ss.iter() {
         // &s表示借值 只读访问
-        println!("{}", &s)
+        println!("{}", &s);
     }
 
-    let s1 = &a[..2];
-    let s2 = &a[3..];
-    println!("s1: {}, s2: {}", s1, s2);
-
-    // 切分UTF-8字符必须保证单元性
-    let s1 = &b[..3];
-    println!("s1: {}", s1);
-
-    let s3 = str_to_string(a);
-    println!("s3: {}", s3);
+    let heap_str = str_to_string(a);
+    println!("String: {}", heap_str);
 
 
     // 字符串相加
