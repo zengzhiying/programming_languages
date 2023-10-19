@@ -71,8 +71,9 @@ fn main() {
     complex_type::complex_type();
 
     // 自定义结构体
-    println!("============ Struct type =============");
+    println!("============ Struct type & Method =============");
     structure_type::structure_type();
+    structure_type::structure_method();
 
     // 枚举类型
     println!("============ Enum type =============");
@@ -82,9 +83,8 @@ fn main() {
     println!("=========== Option type =============");
     option_type::option_type();
 
-    // struct method
+    // enum method
     println!("=========== struct & enum method ============");
-    struct_enum_method::struct_method();
     struct_enum_method::enum_method();
     
 
