@@ -1,7 +1,4 @@
 
-
-
-
 #[derive(Debug)]
 enum Message {
     Open,

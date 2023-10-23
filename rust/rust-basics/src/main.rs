@@ -7,7 +7,7 @@ mod slice_type;
 mod structure_type;
 mod enum_type;
 mod option_type;
-mod struct_enum_method;
+mod enum_method;
 mod trait_example;
 mod trait_object;
 mod vector_type;
@@ -76,17 +76,13 @@ fn main() {
     structure_type::structure_method();
 
     // 枚举类型
-    println!("============ Enum type =============");
+    println!("============ Enum type & Method =============");
     enum_type::enum_type();
+    enum_method::enum_method();
 
     // Option
-    println!("=========== Option type =============");
+    println!("=========== Option enum type =============");
     option_type::option_type();
-
-    // enum method
-    println!("=========== struct & enum method ============");
-    struct_enum_method::enum_method();
-    
 
     // generics 实现
     println!("============ generics ============");
