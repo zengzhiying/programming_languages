@@ -21,6 +21,8 @@ pub fn option_type() {
     match_option(f);
     match_option(p);
     println!("{:?}", f);
+    let f1 = plus_one(f);
+    println!("{:?}", f1);
 }
 
 fn match_option(x: Option<i32>) {
@@ -30,5 +32,12 @@ fn match_option(x: Option<i32>) {
         // 注意变量名称如果和之前的 x 一致, 则会出现变量覆盖, 一直到作用域结束
         // 这点要注意, 尽量使用不同的变量名
         Some(i) => println!("x is {}", i)
+    }
+}
+
+fn plus_one(x: Option<i32>) -> Option<i32> {
+    match x {
+        None => None,
+        Some(i) => Some(i + 1)
     }
 }

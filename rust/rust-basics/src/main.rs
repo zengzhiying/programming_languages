@@ -84,6 +84,8 @@ fn main() {
     println!("=========== Option enum type =============");
     option_type::option_type();
 
+    // match 模式匹配
+
     // generics 实现
     println!("============ generics ============");
     generics_type::generics_add();

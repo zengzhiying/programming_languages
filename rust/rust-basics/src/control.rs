@@ -154,6 +154,9 @@ pub fn break_control() {
 pub fn match_control() {
     let n = 67732;
 
+    // match 本身可以作为表达式返回
+    // 语法是 模式 => 执行的代码，多个模式之间用逗号分割
+    // 如果每个模式有多行代码需要用大括号 {} 放置执行的代码，后面可以不用再加逗号了
     let b = match is_even(n) {
         true => "even",
         false => "odd",
@@ -161,8 +164,8 @@ pub fn match_control() {
 
     println!("{} is {}", n, b);
 
-    // 使用match更加安全 会警告没有考虑到的情况
-    // match类似于switch 但是会更加灵活
+    // 使用 match 更加安全，编译器会对没有匹配到的情况报错，也就是说匹配是穷尽的
+    // match 类似于 switch，但是会更加灵活，支持任意的类型匹配
     let arr = [1, 2, 1, 5, 7, 63, 59, 0];
     for v in arr {
         let r = match v {
@@ -174,19 +177,20 @@ pub fn match_control() {
             7..=10 => "small",
             // 所有其他情况
             _ => "miss",
+            // 之后不能再添加任何模式，因为都不会被执行
         };
 
         println!("{} is {}", v, r);
     }
 
+    // 更强大的枚举值匹配
     let d = Direction::East;
     match_direction(d);
     let d = Direction::North;
     match_direction(d);
     let d = Direction::South;
     match_direction(d);
-
-    // 更强大的枚举值匹配
+    
     #[derive(Debug)]
     enum Action {
         Say(String),
@@ -211,7 +215,7 @@ pub fn match_control() {
         }
     }
 
-    // 当只需要匹配 1 个条件时用 if let 其他情况都用 match
+    // 当只需要匹配一个条件而忽略其他条件时用 if let，其他情况都用 match
     let v = Some(3);
     if let Some(i) = v {
         println!("v is {}.", i);
@@ -234,7 +238,7 @@ pub fn match_control() {
 
     println!("{:?}", stack);
 
-    // 使用 matches! 进行比较  matches! 返回布尔值
+    // 使用 matches! 进行比较，matches! 返回布尔值
     let v = vec![Direction::West, Direction::South, Direction::East];
     let r = v.iter().filter(|x| matches!(x, Direction::East));
     for fr in r {
