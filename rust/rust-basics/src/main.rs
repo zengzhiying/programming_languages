@@ -84,7 +84,10 @@ fn main() {
     println!("=========== Option enum type =============");
     option_type::option_type();
 
-    // match 模式匹配
+    // 集合类型 Vector, String, Hash Map
+    // Vector type
+    println!("================ vector type =================");
+    vector_type::vector_type_example();
 
     // generics 实现
     println!("============ generics ============");
@@ -101,10 +104,6 @@ fn main() {
     // trait object
     println!("============== trait object =================");
     trait_object::trait_object();
-
-    // Vector type
-    println!("================ vector type =================");
-    vector_type::vector_type_example();
 
     // HashMap type
     println!("================ hash map type ==================");
