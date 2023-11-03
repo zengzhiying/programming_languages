@@ -61,11 +61,6 @@ fn main() {
     println!("============= Slice type ===========");
     slice_type::slice_type();
 
-    // 字符串类型
-    println!("============ String type ====================");
-    string_type::string_basic();
-    string_type::text_process();
-
     // 复数使用
     println!("========== Complex type =================");
     complex_type::complex_type();
@@ -88,6 +83,11 @@ fn main() {
     // Vector type
     println!("================ vector type =================");
     vector_type::vector_type_example();
+
+    // 字符串类型
+    println!("============ String type ====================");
+    string_type::string_basic();
+    string_type::text_process();
 
     // generics 实现
     println!("============ generics ============");
