@@ -81,13 +81,17 @@ fn main() {
 
     // 集合类型 Vector, String, Hash Map
     // Vector type
-    println!("================ vector type =================");
+    println!("================ Vector type =================");
     vector_type::vector_type_example();
 
     // 字符串类型
     println!("============ String type ====================");
     string_type::string_basic();
     string_type::text_process();
+
+    // HashMap type
+    println!("================ Hasp Map type ==================");
+    hashmap_type::hashmap_example();
 
     // generics 实现
     println!("============ generics ============");
@@ -104,10 +108,6 @@ fn main() {
     // trait object
     println!("============== trait object =================");
     trait_object::trait_object();
-
-    // HashMap type
-    println!("================ hash map type ==================");
-    hashmap_type::hashmap_example();
 
     // type conversion
     println!("================ type conversion =================");
