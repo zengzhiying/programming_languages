@@ -93,6 +93,10 @@ fn main() {
     println!("================ Hasp Map type ==================");
     hashmap_type::hashmap_example();
 
+    // result panic
+    println!("=============== result panic ===================");
+    result_panic::result_panic_example();
+
     // generics 实现
     println!("============ generics ============");
     generics_type::generics_add();
@@ -112,10 +116,6 @@ fn main() {
     // type conversion
     println!("================ type conversion =================");
     type_conversion::type_conversion_example();
-
-    // result panic
-    println!("=============== result panic ===================");
-    result_panic::result_panic_example();
 
     // lifetime
     println!("=============== life time =======================");
