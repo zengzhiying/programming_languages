@@ -97,10 +97,10 @@ fn main() {
     println!("=============== result panic ===================");
     result_panic::result_panic_example();
 
-    // generics 实现
+    // generics（泛型） 实现
     println!("============ generics ============");
-    generics_type::generics_add();
     generics_type::generics_max();
+    generics_type::generics_add();
     generics_type::struct_generics();
     generics_type::enum_generics();
     generics_type::const_generics();
