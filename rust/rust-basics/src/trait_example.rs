@@ -3,8 +3,9 @@ use std::{fmt::{Debug, Display}, ops::Add};
 
 // 定义 trait(特征)
 trait Summary {
+    // 只定义没有实现的方法，必须要在具体的类型中实现
     // fn post(&self) -> String;
-    // 也可以定义默认实现
+    // 也可以定义默认实现，当类型不实现该方法时将调用默认方法，但是当类型重载方法后将调用类型重载后的方法
     fn post(&self) -> String {
         String::from("Default post.")
     }
@@ -48,26 +49,36 @@ fn notify(item: &impl Summary) {
 }
 
 // 特征约束 trait bound
-// 这样使用类型 T 要求 item1 和 item2 的原始类型必须一致, 而且保证实现 Summary trait
+// 这样使用类型 T 要求 item1 和 item2 的原始类型必须一致, 而且保证实现 Summary trait，但是仅使用 trait 作为参数是无法实现这种约束的
+// 因为 T 是声明一种类型，且这种类型实现了 Summary trait，因此在同一个函数同一次调用中必须一致
 fn notify2<T: Summary>(item1: &T, item2: &T) {
     println!("notify2: {} {}", item1.post(), item2.post());
 }
 
-// 多重约束
+// 多重约束 使用 + 语法实现
 fn notify3(item: &(impl Summary + Debug)) {
     println!("notify3: {}", item.post());
 }
 
-// 多重约束 + 特征约束
+// 多重特征约束的泛型实现
 fn notify4<T: Summary + Debug>(item1: &T, item2: &T) {
     println!("notify4: {} {}", item1.post(), item2.post());
 }
 
-// 通过 where 关键字来约束特征 特征参数比较多的时候适合使用
+// 通过 where 关键字来约束特征，当类型比较多且每个类型都有不同的 trait bound 时建议使用，这样看起来比较简洁
 fn notify5<T, U>(item1: &T, item2: &U) 
     where T: Summary, U: Display
 {
     println!("notify5: {} {}", item1.post(), item2);
+}
+
+// 函数返回 trait 类型
+// 但是实际的类型只能返回一种, 无法通过分支控制来返回多个类型, 例如: Weixin 和 Weibo
+fn summarizable() -> impl Summary {
+    Weibo {
+        user: String::from("uid2991"),
+        content: String::from("会有突如其来的好运.")
+    }
 }
 
 // 利用特征约束有条件的实现指定的特征
@@ -91,15 +102,6 @@ impl<T: Display + PartialOrd> Pair<T> {
         } else {
             println!("maxinum is: {}", self.y);
         }
-    }
-}
-
-// 函数返回 trait 类型
-// 但是实际的类型只能返回一种, 无法通过分支控制来返回多个类型, 例如: Weixin 和 Weibo
-fn summarizable() -> impl Summary {
-    Weibo {
-        user: String::from("uid2991"),
-        content: String::from("会有突如其来的好运.")
     }
 }
 
@@ -257,11 +259,12 @@ pub fn example() {
 
     notify5(&twitter, &10);
 
-    let p = Pair::new(3, 8);
-    p.cmp_display();
-
     let wb = summarizable();
     println!("return impl: {}", wb.post());
+
+    let p = Pair::new(3, 8);
+    p.cmp_display();
+    
 
     let v1 = ThreeDimVector{x: 3, y: 6, z: 1};
     let v2 = ThreeDimVector{x: 2, y: 3, z: 0};
