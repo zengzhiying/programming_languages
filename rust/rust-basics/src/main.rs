@@ -113,13 +113,13 @@ fn main() {
     println!("============== trait object =================");
     trait_object::trait_object();
 
-    // type conversion
-    println!("================ type conversion =================");
-    type_conversion::type_conversion_example();
-
     // lifetime
     println!("=============== life time =======================");
     object_lifetime::lifetime_example();
+
+    // type conversion
+    println!("================ type conversion =================");
+    type_conversion::type_conversion_example();
 
     // print
     println!("==================== print =======================");
