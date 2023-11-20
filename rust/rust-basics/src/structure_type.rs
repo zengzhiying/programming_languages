@@ -1,4 +1,5 @@
-
+#![allow(dead_code)]
+#![allow(unused_variables)]
 // 通常结构体的字段不能包含引用, 每个结构体都有其完整的数据
 // 如果包含引用则需要用到生命周期定义, 因为要确保结构体的作用范围小于其中属性的作用范围, 
 // 否则在使用结构体的时候会出现属性无效的混乱情况, 因此如果不定义生命周期（lifetimes）是无法在结构体中使用引用的
@@ -71,7 +72,7 @@ pub fn structure_type() {
 
 // 结构体方法示例
 #[derive(Debug)]
-struct Rectangle {
+pub struct Rectangle {
     width: u32,
     height: u32
 }
@@ -80,7 +81,7 @@ impl Rectangle {
     // new 函数不是结构体方法, 而是结构体的关联函数（associated functions），new 也不是关键字，所以可以放心使用
     // 因为没有 self 实例参数, 调用时按照命名空间方式调用, 即: Rectangle::new，这就和 String::from 一样
     // 在 impl 块内 Self 类型是 impl 指定类型的别名
-    fn new(width: u32, height: u32) -> Self {
+    pub fn new(width: u32, height: u32) -> Self {
         Rectangle { width, height }
     }
 
@@ -97,7 +98,7 @@ impl Rectangle {
 
 // 如果方法太多, 为了美观可以写多个块, 并不影响实现
 impl Rectangle {
-    fn contain(&self, other: &Rectangle) -> bool {
+    pub fn contain(&self, other: &Rectangle) -> bool {
         self.width > other.width && self.height > other.height
     }
 
