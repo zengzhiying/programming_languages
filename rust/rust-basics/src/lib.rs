@@ -21,6 +21,7 @@ mod tests {
     #[test]
     fn it_works() {
         let result = 2 + 2;
+        println!("result: {}", result);
         assert_eq!(result, 4);
     }
 
@@ -28,6 +29,8 @@ mod tests {
     use super::structure_type::Rectangle;
 
     #[test]
+    // 想要在全部测试中排除指定的测试可以添加下面的注解
+    #[ignore]
     fn rectangle_contain() {
         let larger = Rectangle::new(8, 7);
         let smaller = Rectangle::new(5, 1);

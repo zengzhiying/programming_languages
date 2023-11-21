@@ -41,3 +41,14 @@ fn plus_one(x: Option<i32>) -> Option<i32> {
         Some(i) => Some(i + 1)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    // 父模块的内部方法同样可以被访问到
+    use super::*;
+
+    #[test]
+    fn test_plus_one() {
+        assert_eq!(plus_one(Some(5)), Some(5 + 1));
+    }
+}
