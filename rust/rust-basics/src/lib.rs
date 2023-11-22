@@ -1,4 +1,4 @@
-mod structure_type;
+pub mod structure_type;
 
 pub struct Guess {
     #[allow(dead_code)]
