@@ -25,6 +25,7 @@ mod weak_example;
 mod self_referential;
 mod pin_example;
 mod concurrency;
+mod functional;
 
 use concurrency::multithreading;
 use concurrency::thread_local_example;
@@ -37,6 +38,7 @@ use concurrency::semaphore_example;
 use concurrency::atomic_example;
 use concurrency::memory_barrier;
 use concurrency::send_sync;
+use functional::closures;
 
 fn main() {
     println!("Hello, Rust!");
@@ -124,6 +126,10 @@ fn main() {
     // print
     println!("==================== print =======================");
     print_example::print_example();
+
+    // functional Closures
+    println!("======================= functional Closures ====================");
+    closures::closures_example();
 
     // box 智能指针
     println!("==================== Box ===========================");
