@@ -26,6 +26,7 @@ mod self_referential;
 mod pin_example;
 mod concurrency;
 mod functional;
+mod iterator_example;
 
 use concurrency::multithreading;
 use concurrency::thread_local_example;
@@ -130,6 +131,10 @@ fn main() {
     // functional Closures
     println!("======================= functional Closures ====================");
     closures::closures_example();
+
+    // Iterator
+    println!("======================== Iterator ==========================");
+    iterator_example::iterator_example();
 
     // box 智能指针
     println!("==================== Box ===========================");
