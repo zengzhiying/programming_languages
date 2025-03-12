@@ -1,22 +1,21 @@
-// 导入类型转换的包
-use std::convert::TryInto;
 
-// 基本数据类型 标量和复合类型
+/**
+ * 基本数据类型 - 标量数据类型 
+ * 标量（scalar）类型表示一个单独的值，标量类型有 4 种：整型、浮点型、布尔类型和字符类型
+ * 标量类型存储在栈中，每次拷贝都是拷贝整个值
+ */
 pub fn data_type_basic() {
-    // 标量（scalar）类型表示一个单独的值，标量类型有 4 种：整型、浮点型、布尔类型和字符类型
-    // 复合（Compound）类型可以将多个值组合成一个类型，有两种：元组（tuple）和数组（array）
-    // 标量和复合类型存储在栈中，每次拷贝都是拷贝整个值
-
     // let 定义变量是不可变的
     // 自动推导类型 i32 
-    let a = 10; 
+    let a = 10;
     // 手动指定类型
     let b: i32 = 20;
     // 字面量类型注解
     let c = 30i32;
-    // 或者是
+    // 或者是加 _ 区分
     let d = 30_i32;
 
+    // 调用函数返回
     let e = add(add(a, b), add(c, d));
     let e1 = add1(&add1(&a, &b), &add1(&c, &d));
 
@@ -31,6 +30,7 @@ pub fn data_type_basic() {
 
     // 变量遮蔽 shadowing
     let yq = 5;
+    // 允许定义相同的变量名称覆盖之前的变量，类型并没有限制
     let yq = yq + 1;
 
     {
@@ -54,11 +54,11 @@ pub fn data_type_basic() {
     // 通过前导下划线表示让编译器忽略不使用的变量而不警告
     let _x = 3;
 
-    // 下划线可以方便表示 不影响数字
+    // 下划线可以方便表示比较长的数字，提高可读性，不影响数值本身
     let f: i64 = 1_000_000;
     println!("{}", f);
 
-    // 默认写法是十进制表示，也可以用十六进制、八进制、二进制等方式表示
+    // 默认写法是十进制表示，也可以用十六进制、八进制、二进制等字面量的方式表示
     let h = 0xff;
     let o = 0o77;
     let bin = 0b1111_0000;
@@ -131,126 +131,6 @@ pub fn data_type_basic() {
     let vb = b'A';
     // 输出是数字
     println!("byte: {vb}");
-
-    // 复合类型-元组（tuple）
-    // 元组长度固定，一旦声明，其长度不会变化
-    // 元组每个位置的元素类型也不必相同，可以单独定义
-    let tup: (i32, f64, u8) = (500, 6.4, 1);
-    // 访问时可以用相同数量的变量解构
-    let (x, y, z) = tup;
-    println!("The {:?} value of x: {x} y: {y} z: {z}", tup);
-
-    // 解构时可以引入可变变量
-    let (b1, mut b2) = (true, false);
-    println!("b1 = {:?}, b2 = {:?}", b1, b2);
-    b2 = true;
-    assert_eq!(b1, b2);
-
-    // 也可以用索引来访问
-    let x = tup.0;
-    let z = tup.2;
-    println!("The {:?} value of x: {x} z: {z}", tup);
-
-    // 解构式赋值
-    let (x1, x2, x3, x4, x5);
-    // 赋值时自动推断类型
-    (x1, x2) = (1, 2);
-    // 按照顺序匹配 后面的_用来占位 所以分别为2,3,6
-    [x3, x4, .., x5, _] = [2, 3, 4, 5, 6, 7];
-    assert_eq!([x1, x2, x3, x4, x5], [1,2,2,3,6]);
-
-    // 不带任何值的元组也叫做单元（unit）类型，表示空值或空类型
-    // 如果表达式或函数不返回任何值，则会隐式返回单元值
-    let un = ();
-    println!("unit value: {:?}", un);
-
-    // 复合类型-数组（array）
-    // 数组中所有元素的类型必须一致，而且长度也是固定不可变的
-    // 当确定元素个数不会改变时，数组会非常有用
-    // 定义时可以根据上下文自动推断类型，类型包括元素类型和长度，比如：[f32, 3]
-    let numbers = [
-        32.0,
-        16.5f32,
-        89.1_f32,
-    ];
-    // 使用索引访问数组，Rust 运行时会进行越界检查，如果访问越界会直接 panic 
-    println!("{:02}", numbers[0]);
-
-    // 创建每个元素都为相同值的数组，下面每个值都为 3，长度是 5
-    let numbers = [3; 5];
-    println!("numbers: {:?}", numbers);
-
-    // 二维数组写法，下面的二维数组在编译时会直接影响前面的类型推断
-    let a = [1,2,3];
-    let b: [u8; 3] = [1,2,3];
-    let c = [0; 3];
-    let d: [u8; 3] = [0; 3];
-    // 其中每个数组类型必须一致
-    let arrs = [a, b, c, d];
-
-    // 数组迭代
-    for arr in arrs {
-        print!("{:?}: ", arr);
-        for n in arr.iter() {
-            print!("\t {}", n);
-        }
-
-        let mut sum = 0;
-        for i in 0..arr.len() {
-            sum += arr[i];
-        }
-
-        println!("\t ∑{:?} = {}", arr, sum);
-    }
-
-
-    // 数字比较示例
-    // 同类型的数字可以直接比较
-    let e1: i32 = 761;
-    let e2: i32 = 661;
-    if e1 >= e2 {
-        println!("e1 >= e2.")
-    }
-
-    // 不同类型比较需要转换，注意降级转换的精度损失
-    let e3: i16 = 671;
-    if e2 <= e3 as i32 {
-        println!("e2 <= e3");
-    }
-
-    let e3_ = e3.try_into().unwrap();
-    if e2 <= e3_ {
-        println!("e2 <= e3_");
-    }
-
-    // 浮点数判断需要谨慎
-    // 定义浮点数元组
-    let abc: (f32, f32, f32) = (0.1, 0.2, 0.3);
-    let xyz: (f64, f64, f64) = (0.1, 0.2, 0.3);
-
-    // 查看底层的存储内容
-    println!("f32 0.1 + 0.2 = {:x}", (abc.0 + abc.1).to_bits());
-    println!("f32 0.3: {:x}", abc.2.to_bits());
-
-    println!("f64 0.1 + 0.2 = {:x}", (xyz.0 + xyz.1).to_bits());
-    println!("f64 0.3: {:x}", xyz.2.to_bits());
-
-    assert!(abc.0 + abc.1 == abc.2);  // 成功
-    // assert!(xyz.0 + xyz.1 == xyz.2);  // 崩溃
-    // 建议使用范围比较 成功
-    assert!((xyz.2 - xyz.0 - xyz.1).abs() <= f64::EPSILON);
-
-    // 浮点数可能会有无穷大或NAN的结果 可以使用is_nan或者is_infinite来判断
-    let x_ = (-4.0f32).sqrt();
-    if x_.is_nan() {
-        println!("x_ is NAN");
-    }
-
-    let y_: f32 = 1.0 / 0.0;
-    // is_infinite等效于!is_finite
-    if y_.is_infinite() {
-        println!("y_ is infinite.")
-    }
 
 }
 

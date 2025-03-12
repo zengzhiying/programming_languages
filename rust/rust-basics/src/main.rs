@@ -1,4 +1,5 @@
 mod basic_type;
+mod compound_type;
 mod string_type;
 mod complex_type;
 mod control;
@@ -44,9 +45,12 @@ use functional::closures;
 fn main() {
     println!("Hello, Rust!");
 
-    // 基本类型
+    // 基本类型 - 标量类型
     println!("========== Basic type =============");
     basic_type::data_type_basic();
+    // 复合类型 - 元组 & 数组
+    println!("=========== Tuple & Array =============");
+    compound_type::compound_data_type();
 
     // 控制流
     println!("========= Control if-else ============");
