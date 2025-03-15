@@ -52,6 +52,11 @@ fn main() {
     println!("=========== Tuple & Array =============");
     compound_type::compound_data_type();
 
+    // 字符串类型
+    println!("============ String type ====================");
+    string_type::string_basic();
+    string_type::text_process();
+
     // 控制流
     println!("========= Control if-else ============");
     control::if_else_control();
@@ -63,6 +68,8 @@ fn main() {
     control::while_control();
     println!("========== Control for-break =========");
     control::break_control();
+    println!("========== Control loop-break ===========");
+    control::loop_control();
 
     // 切片类型
     println!("============= Slice type ===========");
@@ -90,11 +97,6 @@ fn main() {
     // Vector type
     println!("================ Vector type =================");
     vector_type::vector_type_example();
-
-    // 字符串类型
-    println!("============ String type ====================");
-    string_type::string_basic();
-    string_type::text_process();
 
     // HashMap type
     println!("================ Hasp Map type ==================");

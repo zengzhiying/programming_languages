@@ -1,12 +1,14 @@
 use std::ops::Add;
 
-// 字符串无论是 &str 还是堆上的 String，都必须是 UTF-8 编码的，不支持二进制
-// String 底层其实是 Vec<u8> 的封装，但是会确保必须是有效的 UTF-8 编码
-// 字符串不支持下标索引直接取值，但是可以切片，不支持的原因是下标取值从语义上来说复杂度是 O(1)，
-// 但是 Rust 必须保证字符串是合法的 UTF-8 编码，所以使用下标取值时就必须从开头进行有效字符的遍历，
-// 这破坏了语义从而无法保证性能，因此编译器不允许字符串通过下标取值，这部分的限制是严格的，可以避免字符串的复杂性给我们造成的困扰
-// 虽然有上面的限制，但是 Rust 标准库中仍然提供了比如 contains 和 replace 等方法来帮助我们解决复杂性
-// crate 上也有一些相关的开源模块可以使用
+/**
+ * 在 Rust 中字符串无论是 &str 还是堆上的 String，都必须是 UTF-8 编码的，不支持二进制
+ * String 底层其实是 Vec<u8> 的封装，但是会确保必须是有效的 UTF-8 编码
+ * 
+ * 字符串不支持下标索引直接取值，但是可以切片，不支持的原因是下标取值从语义上来说复杂度是 O(1)，
+ * 但是 Rust 必须保证字符串是合法的 UTF-8 编码，所以使用下标取值时就必须从开头进行有效字符的遍历，
+ * 这破坏了语义从而无法保证性能，因此编译器不允许字符串通过下标取值，这部分的限制是严格的，可以避免字符串的复杂性给我们造成的困扰
+ * 虽然有上面的限制，但是 Rust 标准库中仍然提供了比如 contains 和 replace 等方法来帮助我们解决复杂性，crate 上也有一些相关的开源模块可以使用
+ */
 pub fn string_basic() {
     // 字符串字面量值
     // 存储在程序二进制中，所有的字符串字面量类型都是 &str 字符串切片
@@ -17,13 +19,33 @@ pub fn string_basic() {
     let ss = [a, b];
 
     for s in ss.iter() {
-        // &s表示借值 只读访问
+        // 这里无论是使用 s 或者 &s 访问都是可以的
+        // 编译器会识别出底层要访问的就是字符串
         println!("{}", &s);
     }
 
+    // 可以使用 \x 表示原始的 ASCII 字符，必须是可显示的 ASCII 范围，超过了会报错
+    // Rust 编译器会根据 \x 指定的字符逐个字面解释，不会放到一块解码
+    let c = "Very goo\x64\x21";
+    println!("{}", c);
+    let bs = "write: \x52\x76\x6f.";
+    println!("bs: {}", bs);
+    // 还可以使用 \u 直接写入 Unicode 字符，Rust 编译器会自动编码为 UTF-8
+    let d = "大学之\u{9053}";
+    println!("{}", d);
+    let un = "u: \u{211d}";
+    println!("un: {}", un);
+
+    // 原始字面量写法，Rust 不进行任何转义
+    // 如果字符串中恰好有 "# 之类的闭合符号，那么只需要开头结尾多加一个 #，让 Rust 知道匹配开始和结束即可
+    let raw_str = r##"\x38 \u{1001} "# \n \t \
+    \"
+    \n"##;
+    println!("{}", raw_str);
+
     // 创建空的 String 符合所有权规则
     let mut s = String::new();
-    // 放入数据，必须是可变类型
+    // 放入数据，前提字符串定义时必须是可变类型
     s.push('1');
     s.push_str("23");
     println!("{}", s);
@@ -50,7 +72,7 @@ pub fn string_basic() {
     sc += "!";
     println!("sc: {}", sc);
 
-    // 使用 add 方法 一定要用返回值接受所有权
+    // 使用 add 方法 通过函数返回值返回值接收所有权
     let sc = sc.add("!!");
     println!("sc: {}", sc);
 
@@ -58,13 +80,6 @@ pub fn string_basic() {
     // format! 生成的代码使用引用，因此不会有任何所有权的转移
     let f = format!("{} {}", String::from("hello"), "happy!");
     println!("format: {}", f);
-
-    // 原始 ASCII 字符写法
-    let bs = "write: \x52\x76\x6f.";
-    println!("bs: {}", bs);
-    // unicode 字符写法
-    let un = "u: \u{211d}";
-    println!("un: {}", un);
 
     // UTF-8 字符串遍历
     let s = "This is: 华夏";
@@ -87,6 +102,9 @@ fn str_to_string(s: &str) -> String {
     s.to_string()
 }
 
+/**
+ * 文本字符串处理示例代码
+ */
 pub fn text_process() {
     // 多行文本
     let lines = "

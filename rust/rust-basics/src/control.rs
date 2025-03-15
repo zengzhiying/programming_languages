@@ -139,7 +139,10 @@ pub fn break_control() {
             }
         }
     }
+}
 
+pub fn loop_control() {
+    // 无限循环 loop 通常会和 break 配合使用
     // loop + break 可以返回值, 因为 loop 本身是表达式
     let mut c = 0;
     let res = loop {
