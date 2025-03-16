@@ -1,5 +1,4 @@
 
-
 pub fn slice_type() {
     // 字符串切片
     // 切片是指向原来字符串数据的引用，切片可以理解为只读引用的一种形式
@@ -10,7 +9,7 @@ pub fn slice_type() {
     println!("s1: {}, s2: {}", s1, s2);
 
     let s = "你好, Rust!";
-    // 切分 UTF-8 字符串必须保证字符的单元性
+    // 切分 UTF-8 字符串必须保证字符的单元性，否则运行时会报错
     let s1 = &s[..3];
     println!("s1: {}", s1);
 
@@ -37,4 +36,22 @@ pub fn slice_type() {
     // 对于这些堆上的类型可以采用下面填充创建的方法 
     let str_array: [String; 3] = core::array::from_fn(|_| String::from("good"));
     println!("{:?}", str_array);
+
+    // Vec<u8> 的切片类型为 &[u8]
+    let vec_a: Vec<u8> = vec![1, 2, 7, 9, 12];
+    // 无法直接切片，因为 [u8] 类型的局部变量并没有实现 Sized trait，无法静态确定大小
+    // let vec_a_slice = vec_a[..2];
+    // 取地址获取的是引用，引用本身局部变量大小是确定的，但是指向的堆内存并不确定
+    let vec_a_slice = &vec_a[..3];
+    // as_slice 和上面方法等效
+    let _vec_a_slice2 = vec_a.as_slice();
+    println!("{:?}", vec_a_slice);
+    // 通过 .to_vec 或 .to_owned 方法可以转成具备所有权的 Vec 类型
+    let vec_b = vec_a_slice.to_vec();
+    let vec_c = vec_a_slice.to_owned();
+    println!("{:?} {:?}", vec_b, vec_c);
+
+    // &Vec<u8> 可以隐式转换为 &[u8] 这在函数调用时会带来很大的方便
+    // 推广来说 &Vec<T> 可以隐式转换为 &[T]
+    let _vec_c_slice: &[u8] = &vec_c;
 }

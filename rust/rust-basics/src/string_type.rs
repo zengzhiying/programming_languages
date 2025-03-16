@@ -54,6 +54,17 @@ pub fn string_basic() {
     let heap_str = str_to_string(a);
     println!("String: {}", heap_str);
 
+    // String 转 &str，下面两种方法等效，&str 都是 String 的切片引用，底层数据不变
+    let heap_str_slice1 = &heap_str[..];
+    let heap_str_slice2 = heap_str.as_str();
+    
+    println!("slice1: {}, slice2: {}", heap_str_slice1, heap_str_slice2);
+
+    // 转成字节数组，就是相当于底层 Vec<u8> 的 as_slice
+    let heap_str_u8 = heap_str.as_bytes();
+    assert_eq!(vec![72u8,101,108,108,111,32,82,117,115,116,46].as_slice(), heap_str_u8);
+
+
     // 通过 from 从 &str 创建 String
     let _s = String::from("contents");
 
@@ -93,6 +104,39 @@ pub fn string_basic() {
         print!("{} ", b);
     }
     println!();
+
+    // Vec<u8> 或字节切片 &[u8] 也可以直接转换回字符串
+    let bs: Vec<u8> = vec![84, 104, 105, 115, 32, 105, 115, 58, 32, 229, 141, 142, 229, 164, 143];
+    let bs_string = String::from_utf8(bs);
+    // str 同样有对应的方法将 &[u8] 转为 &str
+    // use std::str as stdstr;
+    // stdstr::from_utf8(&bs);
+    // 转换不一定成功，需要进行异常处理
+    match bs_string {
+        Ok(s) => println!("bs string: {}", s),
+        Err(err) => println!("Vec<u8> -> string err: {}", err)
+    }
+
+    // 还可以使用 unsafe 方法 from_utf8_unchecked，这个方法不会进行任何校验，返回的结果可能会出现未知的乱码情况
+    let _bs_string1 = unsafe {
+        String::from_utf8_unchecked(vec![84, 104, 105, 115, 32, 105, 115, 58, 32, 229, 141, 142, 229, 164, 143])
+    };
+    
+    // 字符串还具备比较强大的 parse 方法，可以将字符串转换成其他数据类型
+    let str_num = "10".parse::<u32>();
+    // 正常需要处理错误
+    println!("str to num: {}", str_num.unwrap());
+    // 还可以使用自动推断的方法
+    let _str_num: u32 = "10".parse().unwrap();
+    let str_float = "4.2".parse::<f32>().unwrap();
+    println!("str to float: {}", str_float);
+    let str_bool = "true".parse::<bool>().unwrap();
+    println!("str to bool: {}", str_bool);
+    let str_char = "道".parse::<char>().unwrap();
+    println!("str to char: {}", str_char);
+    let str_ip_addr = "10.10.1.21".parse::<std::net::Ipv4Addr>().unwrap();
+    println!("str to ip: {}", str_ip_addr);
+
 }
 
 // &str 切片转 String

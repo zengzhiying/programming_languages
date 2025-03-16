@@ -195,6 +195,7 @@ pub fn match_control() {
     match_direction(d);
     
     #[derive(Debug)]
+    #[allow(dead_code)]  // 允许无效的变量定义(dead_code)
     enum Action {
         Say(String),
         Move(i32, i32),
