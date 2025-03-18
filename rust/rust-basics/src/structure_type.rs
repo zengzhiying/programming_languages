@@ -1,6 +1,6 @@
-// 如果被库 lib.rs 引用，且模块被声明为 pub，则当前模块是公共的因此不需要加注解 
-// #![allow(dead_code)]
-// #![allow(unused_variables)]
+// 如果被库 lib.rs 引用，且模块被声明为 pub，则当前模块是公共的因此不需要加注解来关闭警告信息
+// #[allow(dead_code)]
+// #[allow(unused_variables)]
 // 通常结构体的字段不能包含引用, 每个结构体都有其完整的数据
 // 如果包含引用则需要用到生命周期定义, 因为要确保结构体的作用范围小于其中属性的作用范围, 
 // 否则在使用结构体的时候会出现属性无效的混乱情况, 因此如果不定义生命周期（lifetimes）是无法在结构体中使用引用的
@@ -16,6 +16,7 @@ struct Buffer {
 // 元组结构体的实例同样符合所有权规则，而不关心其中的类型是否实现 Copy trait，这点和元组类型不同
 // 元组结构体同样没有实现 Display trait，可以加注解实现打印
 #[derive(Debug)]
+#[allow(dead_code)]
 struct Point(i32, i32, i32);
 
 // 类单元结构体（unit-like structs）
@@ -49,6 +50,11 @@ pub fn structure_type() {
     println!("buf: {:?}", buf);
     // 结构体字段较多时可以换行输出 更加美观一些
     println!("buf: {:#?}", buf);
+
+    // 如果获取结构体中的字段，会单独转移这个字段的所有权，整个结构体就无法打印，但是没有被使用的字段还可以被访问到
+    // let _buf_name = buf.name;
+    // println!("buf: {:#?}", buf);
+
     // 还可以使用 dbg! 不过会转移所有权并且返回所有权, 可以使用引用或者接收所有权
     // buf = dbg!(buf);
     // dbg! 打印的是标准错误流（stderr），而不是标准输出
@@ -72,7 +78,8 @@ pub fn structure_type() {
 
 
 // 结构体方法示例
-#[derive(Debug)]
+// 添加 Debug 宏是方便打印，添加 Default 宏可以生成默认的构造方法，这里默认值都是 0
+#[derive(Debug, Default)]
 pub struct Rectangle {
     width: u32,
     height: u32
@@ -119,10 +126,21 @@ pub fn structure_method() {
     let area = rect.area();
     println!("rectangle: {:?} area: {} perimeter: {}", rect, area, rect.perimeter());
 
+    // 不管写多少层 Rust 都会自动进行解引用操作
+    let rect_ref = &&&&&rect;
+    assert_eq!(rect_ref.area(), 50);
+
     let rect1 = Rectangle{width: 15, height: 10};
     let rect2 = Rectangle{width: 8, height: 4};
     println!("rect contain rect1? {}", rect.contain(&rect1));
     println!("rect contain rect2? {}", rect.contain(&rect2));
+
+    // 我们前面使用了 Default 宏，所以可以直接以属性的默认值构造结构体
+    // 这种写法需要加类型标注
+    let rect3: Rectangle = Default::default();
+    // 这种写法作用相同
+    let rect4 = Rectangle::default();
+    println!("{:?} {:?}", rect3, rect4);
 }
 
 
