@@ -242,6 +242,23 @@ pub fn match_control() {
 
     println!("{:?}", stack);
 
+    // 匹配结构体字段
+    #[derive(Debug)]
+    struct User { name: String, age: u32, student: bool}
+    let u = User { name: String::from("mike"), age: 20, student: false, };
+    let User {name, age, student} = u;
+
+    // 匹配后所有权从 u 转移到各个变量，目前会将 name 转移出去，其余字段还可以使用
+    println!("user name: {}, age: {}, student: {}", name, age, student);
+
+    // 不转移所有权写法
+    let mut u = User { name: String::from("mike"), age: 20, student: false, };
+    // 通过 ref 获取引用，mut ref 获取可变引用，前提结构体需要是可变的
+    let User {ref mut name, age, student} = u;
+    println!("user name: {}, age: {}, student: {}", name, age, student);
+    println!("{:?}", u);
+    
+
     // 使用 matches! 进行比较，matches! 返回布尔值
     let v = vec![Direction::West, Direction::South, Direction::East];
     let r = v.iter().filter(|x| matches!(x, Direction::East));

@@ -7,6 +7,7 @@ enum Message {
 }
 
 impl Message {
+    // 可以对枚举类型实现方法，但是不能对枚举中的元素实现方法
     fn get_message_length(&self) -> usize {
         // if let 对于不可变引用借用, 也只能使用其中变量的引用, 
         // 而不可能转移其内部的所有权使原来对象改变
