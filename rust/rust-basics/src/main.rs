@@ -57,6 +57,10 @@ fn main() {
     string_type::string_basic();
     string_type::text_process();
 
+    // print
+    println!("==================== print =======================");
+    print_example::print_example();
+
     // 控制流
     println!("========= Control if-else ============");
     control::if_else_control();
@@ -88,6 +92,10 @@ fn main() {
     println!("============ Enum type & Method =============");
     enum_type::enum_type();
     enum_method::enum_method();
+
+    // type conversion
+    println!("================ type conversion =================");
+    type_conversion::type_conversion_example();
 
     // Option
     println!("=========== Option enum type =============");
@@ -125,14 +133,6 @@ fn main() {
     // lifetime
     println!("=============== life time =======================");
     object_lifetime::lifetime_example();
-
-    // type conversion
-    println!("================ type conversion =================");
-    type_conversion::type_conversion_example();
-
-    // print
-    println!("==================== print =======================");
-    print_example::print_example();
 
     // functional Closures
     println!("======================= functional Closures ====================");

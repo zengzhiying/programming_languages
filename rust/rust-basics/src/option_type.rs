@@ -8,7 +8,7 @@
 //     None,
 //     Some(T),
 // }
-// 由于 Option 用的非常多，因此直接包含在 prelude 之中，所以我们不需要显示引入作用域
+// 由于 Option 用的非常多，因此直接包含在 prelude 之中，所以我们不需要显式引入作用域
 // 使用其中的成员也不需要 Option:: 而是直接可以使用，但是我们要明白 Some(T) 和 None 并不是独立的类型，而是 Option<T> 的成员
 // 使用 Option<T> 无法直接参与到类型 T 的计算中，所以在使用时必须进行显式的转换，这样的话 Rust 在编译器级别就可以进行检查
 // 从而避免空值的情况发生，因为语法要求我们必须强制进行判断，无论是 Some(T) 还是 None 都要在我们的控制流中进行处理
@@ -23,6 +23,36 @@ pub fn option_type() {
     println!("{:?}", f);
     let f1 = plus_one(f);
     println!("{:?}", f1);
+    // 除 match 外三种不同的解包方式
+    // unwrap，如果值为 None 会直接 panic
+    assert_eq!(f1.unwrap(), 6);
+    // expect，如果值为 None 也会 panic，但是会携带指定的提示信息
+    assert_eq!(f1.expect("f1 value is None"), 6);
+    // unwrap_or，如果为 None 将由默认参数替代
+    assert_eq!(f1.unwrap_or(0), 6);
+
+    // Option 的所有权跟随类型 T，如果 T 是所有权类型那么 Option 的行为一致
+    // 如果 T 实现了 Copy trait，那么 Option 也可以拷贝
+    let v = Some(String::from("abc"));
+    assert_eq!(v.unwrap(), "abc");
+
+    // 通过 map 处理 Option 避免捷豹
+    // 如果值正常则会应用 map，如果值为 None 则结果仍然是 None
+    let v = Some(String::from("hello"));
+    // map 会消耗所有权
+    let vl = v.map(|s| s.len());
+    assert_eq!(vl, Some(5));
+
+    let s = String::from("string value");
+    let sv = Some(&s);
+    // cloned 要求 T 必须实现 Clone trait，这样 sv1 相当于创建新的所有权变量，而不影响之前的
+    let sv1 = sv.cloned();
+    assert_eq!(sv1, Some(s));
+
+    // is_some 和 is_none 快捷判断是否有值
+    assert!(sv1.is_some());
+    let none: Option<i32> = None;
+    assert!(none.is_none());
 }
 
 fn match_option(x: Option<i32>) {
