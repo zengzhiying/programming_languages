@@ -1,7 +1,9 @@
 use std::{fmt::{Debug, Display}, ops::Add};
 
 
-// 定义 trait(特征)
+// 定义 trait(特征)，trait 的本质是约束，其实常见的类型 u8、f64、String、Vec 或者结构体枚举等具体的类型都是对变量的约束
+// 类型系统的约束比较严格，因此就出现了泛型，但是泛型又过于宽泛，所以采用 trait 可以更加灵活的控制类型的范围
+// trait 体现了组合优于继承的思想，所有权和 trait 是 Rust 世界中的两大核心部分。
 trait Summary {
     // 只定义没有实现的方法，必须要在具体的类型中实现
     // fn post(&self) -> String;
@@ -201,6 +203,7 @@ impl Animal for Dog {
 
 
 // ========== 特征定义时的特征约束 =============
+// 注意特征约束不是继承，例如下面的 trait 表示如果类型要实现 OutlinePrint 则必须要实现 Display 才可以
 trait OutlinePrint: Display {
     fn print(&self);
 }
@@ -235,6 +238,66 @@ struct Wrapper(Vec<String>);
 impl Display for Wrapper {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.0.join(", "))
+    }
+}
+
+// trait 关联类型，trait 中不仅可以定义方法约束还可以定义用于占位的类型
+// 这个类型可以用在其中定义的函数参数，也可以用于返回值中
+trait Sport {
+    // 定义关联类型，在实现时需要指定
+    type SoprtType;
+    
+    // 定义方法约束，关联类型可以写作：Self::SportType 或 <Self as Sport>::SportType
+    fn play(&self, st: <Self as Sport>::SoprtType);
+    // 返回值使用关联类型
+    fn get_sport_type(&self) -> Self::SoprtType;
+}
+
+// 定义结构体实现 Sport trait
+struct Football;
+#[derive(Debug)]
+enum SportForm {
+    Land,
+    Water
+}
+
+// 为 Football 实现 Sport trait
+impl Sport for Football {
+    // 重新设置类型为枚举类型
+    type SoprtType = SportForm;
+
+    // 关联类型两种写法：Self::SportType，<Football as Sport>::SportType
+    fn play(&self, st: <Football as Sport>::SoprtType) {
+        match st {
+            SportForm::Land => println!("Land sport"),
+            SportForm::Water => println!("Water sport")
+        }
+    }
+
+    fn get_sport_type(&self) -> Self::SoprtType {
+        SportForm::Land
+    }
+}
+
+// 带有关联类型的 trait，在其他结构体使用其作为约束时可以指定具体的关联类型
+// 不指定关联类型直接写即可
+/**
+ * struct Basketball<T: Sport> {
+ *   x: T
+ * }
+ */
+struct Basketball<T: Sport<SoprtType = String>> {
+    x: T
+}
+
+struct Cba;
+impl Sport for Cba {
+    type SoprtType = String;
+    fn get_sport_type(&self) -> Self::SoprtType {
+        "CBA".to_string()
+    }
+    fn play(&self, st: <Self as Sport>::SoprtType) {
+        println!("{}", st);
     }
 }
 
@@ -298,4 +361,17 @@ pub fn example() {
     // newtype 模式
     let w = Wrapper(vec![String::from("Hello"), String::from("Rust!")]);
     println!("{}", w);
+
+    // trait 关联类型
+    let foot_ball = Football;
+    foot_ball.play(SportForm::Land);
+    foot_ball.play(SportForm::Water);
+    println!("{:?}", foot_ball.get_sport_type());
+
+    // trait 关联类型定义约束
+    let basketball = Basketball{
+        x: Cba
+    };
+    basketball.x.play("Basketball Game".to_string());
+    println!("{}", basketball.x.get_sport_type());
 }
