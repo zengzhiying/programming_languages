@@ -204,6 +204,8 @@ impl Animal for Dog {
 
 // ========== 特征定义时的特征约束 =============
 // 注意特征约束不是继承，例如下面的 trait 表示如果类型要实现 OutlinePrint 则必须要实现 Display 才可以
+// 等同于 where 写法：trait OutlinePrint where Self: Display {}，和方法定义一样，支持写多个 trait
+// 这样在使用时如果指定：T: OutlinePrint 就等同于 T: OutlinePrint + Display
 trait OutlinePrint: Display {
     fn print(&self);
 }
@@ -301,6 +303,33 @@ impl Sport for Cba {
     }
 }
 
+// 在定义 trait 时可以进一步对关联类型进行一定的约束
+// trait 中可以定义关联类型、关联常量和关联函数，最常用的是关联函数
+trait TraitA {
+    // 对象使用的关联类型必须实现 Debug trait 才可以
+    type Item: Debug;
+    // 同时还可以携带常量
+    const LEN: u32 = 10;
+    fn print_item(&self) -> Self::Item;
+}
+
+struct StructA;
+
+impl TraitA for StructA {
+    type Item = String;
+    // 覆盖常量的值
+    const LEN: u32 = 100;
+    fn print_item(&self) -> Self::Item {
+        return "item string".to_string()
+    }
+}
+
+// 约束加强，约束 T 的类型同时约束子类型
+fn doit<T>()
+where T: TraitA,
+      T::Item: Debug + PartialEq {
+}
+
 pub fn example() {
     let weibo = Weibo{user: String::from("u1800"), content: String::from("昨天烟花不错.")};
     let weixin = Weixin{src: String::from("wxid01"), dest: String::from("wxid02"), message: String::from("我是马化腾")};
@@ -347,6 +376,9 @@ pub fn example() {
     // 或者不用包装函数
     Pilot::fly(&person);
     Wizard::fly(&person);
+    // 等同于
+    <Human as Pilot>::fly(&person);
+    <Human as Wizard>::fly(&person);
 
     // 无 self 参数的同名方法
     println!("dog: {}", Dog::baby_name());
@@ -374,4 +406,11 @@ pub fn example() {
     };
     basketball.x.play("Basketball Game".to_string());
     println!("{}", basketball.x.get_sport_type());
+
+    // trait 关联类型约束
+    let struct_a = StructA;
+    // 其中常量如果存在覆盖则是结构体的值，否则就是 trait 定义时初始化的值
+    println!("{:?} len: {} {}", 
+        struct_a.print_item(), StructA::LEN, <StructA as TraitA>::LEN);
+    doit::<StructA>();
 }
