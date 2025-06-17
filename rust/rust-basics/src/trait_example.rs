@@ -108,7 +108,9 @@ impl<T: Display + PartialOrd> Pair<T> {
 }
 
 // 实现加法 trait
-// 最简单的方法可以通过注解实现 Clone+Copy
+// 最简单的方法可以通过注解实现 Clone + Copy
+// 只要结构中每个属性都实现了 Clone trait，那么就可以使用标准方式派生 Clone trait
+// Clone 方法需要显式调用，而且是深拷贝，Clone 会生成新的实例和新的所有权
 // #[derive(Debug, Clone, Copy)]
 #[derive(Debug)]
 struct ThreeDimVector<T: Add<T, Output = T> + Display + Copy> {
@@ -119,6 +121,9 @@ struct ThreeDimVector<T: Add<T, Output = T> + Display + Copy> {
 
 
 // 实现 Copy
+// Copy 是 Clone 的 subtrait，并且 Copy 不包含任何实现，仅仅是一个标记
+// Copy 只会复制当前结构，也就是最外层的结构，所以结构体所有的属性必须实现 Copy 才可以，否则所有权就有冲突了
+// 对于基本类型默认赋值就是 Copy 语义，如果未实现就是常见的 move 语义，也就是所有权会转移
 impl<T: Add<T, Output = T> + Display + Copy> Copy for ThreeDimVector<T> {
 }
 
@@ -136,7 +141,7 @@ impl<T: Add<T, Output = T> + Display + Copy> Display for ThreeDimVector<T> {
     }
 }
 
-// 实现 add
+// 实现 Add trait
 impl<T: Add<T, Output = T> + Display + Copy> Add for ThreeDimVector<T> {
     type Output = ThreeDimVector<T>;
 
@@ -147,6 +152,30 @@ impl<T: Add<T, Output = T> + Display + Copy> Add for ThreeDimVector<T> {
             z: self.z + v.z
         }
     }
+}
+
+// 实现 PartialEq 可以比较相等
+// 使用标准派生宏的前提是结构体中的所有类型都实现了 PartialEq，则可以直接派生 PartialEq，
+// 当结构体中所有属性都相等时，则表示结构体相等
+// 另外还有个 Eq 这个是 PartialEq 的 subtrait，要求会严格一些，它要求必须有自反性
+// 比如浮点数的 NaN 表示不确定的数字，因此不能说 NaN = NaN，所以浮点数只实现了 PartialEq，
+// 而整数同时实现了 PartialEq 和 Eq
+#[derive(Debug, PartialEq)]
+struct PointPartialEq {
+    x: u32,
+    y: u32
+}
+
+// PartialOrd 和 PartialEq 类似，可以用来比较两个类型的大小
+// 必须实现了 PartialEq 才可以实现 PartialOrd，所以 PartialOrd 也是 PartialEq 的 subtrait
+// 以标准方式派生 PartialOrd 会比较大小时会优先比较第一个元素，当第一个元素相等时会继续比较后面的元素，以此类推
+// 和 Eq 一样，还有 Ord trait，Ord 是 Eq + PartialOrd 的子类型，Ord 具有严格的顺序性
+// 对于浮点数来说只实现了 PartialOrd，而整数则实现了 Ord
+// 对于实现了 Ord trait 的类型可以作为 BTreeMap / BTreeSet 的 key
+#[derive(Debug, PartialEq, PartialOrd)]
+struct PointPartialOrd {
+    x: i32,
+    y: i32
 }
 
 // =========== 同一个对象不同特征的同名方法 ===========
@@ -364,6 +393,21 @@ pub fn example() {
     println!("v3: {}", v3);
     // 实现 copy 后所有权不会移动
     println!("v1: {}, v2: {}", v1, v2);
+
+    // ToOwned trait 可以将引用转换为新的所有权实例，相当于 Clone 的更宽泛的用法
+    let s1 = String::from("to owned string");
+    let s2 = s1.as_str();
+    let s3 = s2.to_owned();
+    println!("owned str: {}, {}", s2, s3);
+
+    // 比较相等
+    let pp1 = PointPartialEq{x: 12, y: 17};
+    let pp2 = PointPartialEq{x: 12, y: 17};
+    assert_eq!(pp1, pp2);
+
+    let pp1 = PointPartialOrd{x: 15, y: 12};
+    let pp2 = PointPartialOrd{x: 11, y: 18};
+    println!("{}", pp1 > pp2);
 
 
     // 同名方法
